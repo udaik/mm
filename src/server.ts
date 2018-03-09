@@ -6,6 +6,9 @@ import * as path from "path";
 import * as errorHandler from "errorhandler";
 
 import { IndexRoute } from "./routes/index";
+import { Logging } from "./logging/Logging";
+import { Logger, Configuration } from "log4js";
+import { appendFile } from "fs";
 
 /**
  * The server.
@@ -13,105 +16,105 @@ import { IndexRoute } from "./routes/index";
  * @class Server
  */
 export class Server {
+    public app: express.Application;
+    private logger: Logger;
+    private logConfig: Configuration;
 
-  public app: express.Application;
+    public static bootstrap(): Server {
+        return new Server();
+    }
 
-  /**
-   * Bootstrap the application.
-   *
-   * @class Server
-   * @method bootstrap
-   * @static
-   * @return {ng.auto.IInjectorService} Returns the newly created injector for this app.
-   */
-  public static bootstrap(): Server {
-    return new Server();
-  }
+    constructor() {
+        // default config for app 
+        const appName: string = 'mm';
 
-  /**
-   * Constructor.
-   *
-   * @class Server
-   * @constructor
-   */
-  constructor() {
-    //create expressjs application
-    this.app = express();
+        this.logConfig = {
+            appenders: { 'mm': { type: 'file', filename: appName + ".log" } },
+            categories: { default: { appenders: [appName], level: 'debug' } }
+        };
+    
+        var logging: Logging = new Logging(appName, 'debug', this.logConfig);
+        this.logger = logging.init();
+        this.logger.debug("Instantiating the Server");
 
-    //configure application
-    this.config();
+        //create expressjs application
+        this.app = express();
 
-    //add routes
-    this.routes();
+        //configure application
+        this.configure();
 
-    //add api
-    this.api();
-  }
+        //add routes
+        this.routes();
 
-  /**
-   * Create REST API routes
-   *
-   * @class Server
-   * @method api
-   */
-  public api() {
-    //empty for now
-  }
+        //add api
+        this.api();
+    }
 
-  /**
-   * Configure application
-   *
-   * @class Server
-   * @method config
-   */
-  public config() {
-    //add static paths
-    this.app.use(express.static(path.join(__dirname, "public")));
+    /**
+     * Create REST API routes
+     *
+     * @class Server
+     * @method api
+     */
+    public api() {
+        //empty for now
+    }
 
-    //configure pug
-    this.app.set("views", path.join(__dirname, "views"));
-    this.app.set("view engine", "pug");
+    /**
+     * Configure application
+     *
+     * @class Server
+     * @method config
+     */
+    public configure() {
+        //add static paths
+        this.app.use(express.static(path.join(__dirname, "public")));
 
-    //mount logger
-    this.app.use(logger("dev"));
+        //configure pug
+        this.app.set("views", path.join(__dirname, "views"));
+        this.app.set("view engine", "pug");
 
-    //mount json form parser
-    this.app.use(bodyParser.json());
+        //mount logger
+        this.app.use(logger("dev"));
 
-    //mount query string parser
-    this.app.use(bodyParser.urlencoded({
-      extended: true
-    }));
+        //mount json form parser
+        this.app.use(bodyParser.json());
 
-    //mount cookie parser middleware
-    this.app.use(cookieParser("SECRET_GOES_HERE"));
+        //mount query string parser
+        this.app.use(bodyParser.urlencoded({
+            extended: true
+        }));
 
-    // catch 404 and forward to error handler
-    this.app.use(function(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
-        err.status = 404;
-        next(err);
-    });
+        //mount cookie parser middleware
+        this.app.use(cookieParser("SECRET_GOES_HERE"));
 
-    //error handling
-    this.app.use(errorHandler());
-  }
+        // catch 404 and forward to error handler
+        this.app.use(function (err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
+            err.status = 404;
+            next(err);
+        });
 
-  /**
-   * Create and return Router.
-   *
-   * @class Server
-   * @method config
-   * @return void
-   */
-  private routes() {
-    let router: express.Router;
-    router = express.Router();
+        //error handling
+        this.app.use(errorHandler());
+        this.logger.info("Configuring app complete");
+    }
 
-    //IndexRoute
-    IndexRoute.create(router);
+    /**
+     * Create and return Router.
+     *
+     * @class Server
+     * @method config
+     * @return void
+     */
+    private routes() {
+        let router: express.Router;
+        router = express.Router();
 
-    //use router middleware
-    this.app.use(router);
-  }
+        //IndexRoute
+        IndexRoute.create(this.logger, router);
+
+        //use router middleware
+        this.app.use(router);
+    }
 
 }

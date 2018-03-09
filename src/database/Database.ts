@@ -1,12 +1,12 @@
 import { DBInterface } from './DBInterface';
 import { connect, disconnect, Connection, connection } from 'mongoose';
-import { Logging } from '../logging/Logging';
 import * as q from 'q';
+import { Logger } from 'log4js';
 
 export class Database extends DBInterface {
     db: Connection;
 
-    constructor(url: string, logging: Logging) {
+    constructor(url: string, logging: Logger) {
         super(url, logging);
     }
 

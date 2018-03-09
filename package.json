@@ -7,15 +7,20 @@
   "scripts": {
     "dev": "NODE_ENV=development nodemon ./bin/www",
     "grunt": "grunt",
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "watch" : "grunt && nodemon ./bin/www"
   },
   "dependencies": {
+    "@types/q": "^1.0.7",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
     "errorhandler": "^1.5.0",
     "express": "^4.16.2",
+    "log4js": "^2.5.3",
+    "mongoose": "^5.0.9",
     "morgan": "^1.9.0",
-    "pug": "^2.0.0-rc.4"
+    "pug": "^2.0.0-rc.4",
+    "q": "^1.5.1"
   },
   "devDependencies": {
     "@types/body-parser": "1.16.8",

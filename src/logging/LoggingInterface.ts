@@ -1,23 +1,12 @@
-import { LogLevel } from './LogLevel';
-import * as q from 'q';
+import { Logger } from 'log4js';
 
 export abstract class LoggingInterface {
 
-    constructor(level: LogLevel) {
+    constructor(name: string, level: string) {
 
     }
 
-    abstract init(appLevel: LogLevel, fileName: string): boolean;
+    abstract init(): Logger;
 
-    abstract fatal(...args: any[]): q.Promise<boolean>;
-
-    abstract error(...args: any[]): q.Promise<boolean>;
-
-    abstract debug(...args: any[]): q.Promise<boolean>;
-
-    abstract warn(...args: any[]): q.Promise<boolean>;
-
-    abstract info(...args: any[]): q.Promise<boolean>;
-
-    abstract close(): q.Promise<boolean>;
+    abstract deinit(): void;
 }
