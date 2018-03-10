@@ -1,5 +1,5 @@
 import { LoggingInterface } from './LoggingInterface';
-import { configure, getLogger, Logger, Appender, Configuration } from 'log4js'
+import { configure, getLogger, Logger, Configuration } from 'log4js'
 
 export class Logging extends LoggingInterface {
     private name: string;

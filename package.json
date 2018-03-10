@@ -8,9 +8,10 @@
     "dev": "NODE_ENV=development nodemon ./bin/www",
     "grunt": "grunt",
     "start": "node ./bin/www",
-    "watch" : "grunt && nodemon ./bin/www"
+    "watch": "grunt && nodemon ./bin/www"
   },
   "dependencies": {
+    "@types/mongoose": "^5.0.7",
     "@types/q": "^1.0.7",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
@@ -32,6 +33,10 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-ts": "^6.0.0-beta.17",
+    "gulp": "^3.9.1",
+    "gulp-cli": "^2.0.1",
+    "gulp-typescript": "^4.0.1",
+    "gulp-watch": "^5.0.0",
     "nodemon": "^1.12.1",
     "typescript": "^2.6.1"
   }

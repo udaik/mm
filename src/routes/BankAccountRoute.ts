@@ -1,17 +1,24 @@
-import { Router, NextFunction, Request, Response } from "express";
+import { Router } from "express";
 import { BankAccountController } from "../controllers/BankAccountController";
 import { Logger } from 'log4js';
+import { RouterAbstract } from "./RouterAbstract";
 
-export class BankAccountRoute {
+export class BankAccountRoute extends RouterAbstract {
+    private controller: BankAccountController;
 
-  private controller: BankAccountController;
-  private app: Router;
+    constructor(logging: Logger, router: Router) {
+        super(logging, router);
+        this.logging = logging;
+        this.router = router;
+    }
 
-  constructor(logging: Logger, app: Router) {
-    this.controller = new BankAccountController(logging);
-    // this.app.post('bankAccount', this.controller.create);
-    // this.app.get('bankAccount', this.controller.findAll);
-    // this.app.put('bankAccount/:bankAccountId', this.controller.update);
-    // this.app.delete('bankAccount/:bankAccountId', this.controller.delete);
-  }
+    mount(mount_path: string): void {
+        this.controller = new BankAccountController(this.logging);
+        this.logging.debug("BankAccountController /", mount_path);
+        
+        this.router.post(mount_path + '/bankAccount', this.controller.create);
+        this.router.get(mount_path + '/bankAccount', this.controller.findAll);
+        this.router.put(mount_path + '/bankAccount/:id', this.controller.update);
+        this.router.delete(mount_path + '/bankAccount/:id', this.controller.delete);
+    }
 }

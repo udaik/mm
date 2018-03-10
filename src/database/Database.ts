@@ -1,6 +1,5 @@
 import { DBInterface } from './DBInterface';
-import { connect, disconnect, Connection, connection } from 'mongoose';
-import * as q from 'q';
+import { connect, disconnect, Connection, connection, ConnectionOptions } from 'mongoose';
 import { Logger } from 'log4js';
 
 export class Database extends DBInterface {
@@ -8,26 +7,29 @@ export class Database extends DBInterface {
 
     constructor(url: string, logging: Logger) {
         super(url, logging);
+        this.url = url;
+        this.logging = logging;
     }
 
-    qInit(options: string): q.Promise<Connection> {
-        const deferred = q.defer();
-        const promise = deferred.promise as q.Promise<Connection>;
+    pInit(options: ConnectionOptions): Promise<Connection> {
         this.db = connection;
-        this.db.once('open', () => {
-            deferred.resolve(true);
-            this.logging.debug('Opened the Database')
-        });
+        const promise = new Promise<Connection>((resolve, reject) => {
+            this.db.once('open', () => {
+                this.logging.debug('Opened the Database')
+                resolve(connection);
+            });
 
-        this.db.on('error', () => {
-            deferred.reject(false);
-            this.logging.fatal("Failed to create the ")
+            this.db.on('error', () => {
+                this.logging.fatal("Failed to connect to the database");
+                reject(connection);
+            });
+
         });
-        connect(this.url);
+        connect(this.url, options, );
         return promise;
     }
 
-    qClose(): void {
+    pClose(): void {
         this.db.once('close', () => {
             this.logging.debug('Closed the database')
         });
