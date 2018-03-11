@@ -15,53 +15,10 @@ export class BankAccountController extends AbstractController {
     }
 
     create(req: Request, resp: Response, next: NextFunction): void {
-        //console.log(req.param('key'));
+        console.log(req.params);
         console.log(req.params);
         console.log(req.body);
         next();
-        /*
-        let b = new BankAccount();
-        b.name = "SBI-new";
-        b.save();
-        */
-
-        /*
-        const deferred = q.defer();
-        const promise = deferred.promise as q.Promise<Object>;
-        console.log(req);
-        
-
-        if (!req.body.content) {
-            resp.status(400).send({ message: "Note can not be empty" });
-            deferred.reject();
-        }
-
-        // Create and Save a new Note
-        let b = new BankAccount();
-        b.name = "SBI-new";
-        b.balance = 0.0;
-        b.isActive = true;
-        b.accountType = AccountType.BANK_ACCOUNT;
-        b.accountNumber = "112312312";
-        b.overdraftLimit = 100;
-        b.customerId = "2131231";
-        b.amb = 10000;
-        // b.transactions.credits = 100;
-        // b.transactions.debits = 100;
-        b.save((err, data) => {
-            if (err) {
-                resp.status(500).send({ message: "Some error occurred while creating the Note." });
-                deferred.reject();
-            } else {
-                resp.send(data);
-                deferred.resolve(data);
-            }
-        });
-
-        this.logger.info("asdfas");
-
-        deferred.resolve(true);
-                */
     }
 
     findAll(req: Request, resp: Response, next: NextFunction): void {
@@ -87,30 +44,15 @@ export class BankAccountController extends AbstractController {
         promise.then(success, failure);
     }
 
-    findOne(req: Request, resp: Response): void {
-        /*
-        const deferred = q.defer();
-        const promise = deferred.promise as q.Promise<Object>;
-        this.logger.info("");
-        deferred.resolve(true);
-        */
+    findOne(req: Request, resp: Response, next: NextFunction): void {
+        next();
     }
 
-    update(req: Request, resp: Response): void {
-        /*
-        const deferred = q.defer();
-        const promise = deferred.promise as q.Promise<Object>;
-        this.logger.info("");
-        deferred.resolve(true);
-        */
+    update(req: Request, resp: Response, next: NextFunction): void {
+        next();
     }
 
-    delete(req: Request, resp: Response): void {
-        /*
-        const deferred = q.defer();
-        const promise = deferred.promise as q.Promise<Object>;
-        this.logger.info("");
-        deferred.resolve(true);
-        */
+    delete(req: Request, resp: Response, next: NextFunction): void {
+        next();
     }
 }

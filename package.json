@@ -11,7 +11,15 @@
     "watch": "grunt && nodemon ./bin/www"
   },
   "dependencies": {
+    "@types/bcryptjs": "^2.4.1",
+    "@types/connect-flash": "0.0.34",
+    "@types/express-handlebars": "0.0.30",
+    "@types/express-session": "^1.15.8",
+    "@types/express-validator": "^3.0.0",
     "@types/mongoose": "^5.0.7",
+    "@types/passport": "^0.4.3",
+    "@types/passport-http": "^0.3.5",
+    "@types/passport-local": "^1.0.32",
     "@types/q": "^1.0.7",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",

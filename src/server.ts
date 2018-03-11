@@ -3,6 +3,12 @@ import * as cookieParser from "cookie-parser";
 import * as express from "express";
 import * as logger from "morgan";
 import * as errorHandler from "errorhandler";
+import * as path from "path";
+import * as exphbs from "express-handlebars";
+import * as session from 'express-session';
+import * as passport from "passport";
+import * as expressValidator from "express-validator";
+// import * as flash from 'connect-flash';
 
 import { IndexRoute } from "./routes/index";
 import { Logging } from "./logging/Logging";
@@ -53,17 +59,69 @@ export class Server {
 
         this.db.pInit(options).then(
             () => {
+
+                this.app.set('views', path.join(__dirname, 'views'));
+                this.app.engine('handlebars', exphbs({ defaultLayout: 'layout' }));
+                this.app.set('view engine', 'handlebars');
+
                 this.app.use(logger("dev"));
                 this.app.use(bodyParser.json());
                 this.app.use(bodyParser.urlencoded({
                     extended: true
                 }));
 
-                this.app.use(cookieParser("SECRET_GOES_HERE"));
+                // Set Static Folder
+                this.app.use(express.static(path.join(__dirname, 'public')));
+
+                // Express Session
+                this.app.use(session({
+                    secret: 'secret',
+                    saveUninitialized: true,
+                    resave: true
+                }));
+
+
+                // Passport init
+                this.app.use(passport.initialize());
+                this.app.use(passport.session());
+
+                // Express Validator
+                this.app.use(expressValidator({
+                    errorFormatter: function (param, msg, value) {
+                        var namespace = param.split('.')
+                            , root = namespace.shift()
+                            , formParam = root;
+
+                        while (namespace.length) {
+                            formParam += '[' + namespace.shift() + ']';
+                        }
+                        return {
+                            param: formParam,
+                            msg: msg,
+                            value: value
+                        };
+                    }
+                }));
+
+                // Connect Flash
+                // this.app.use(flash());
+
+                // Global Vars
+                this.app.use(function (req, res, next) {
+                    res.locals.success_msg = req.flash('success_msg');
+                    res.locals.error_msg = req.flash('error_msg');
+                    res.locals.error = req.flash('error');
+                    res.locals.user = req.user || null;
+                    next();
+                });
+
+                this.app.use(cookieParser());
                 this.app.use(function (err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
                     err.status = 404;
                     next(err);
                 });
+                this.app.use(this.router);
+
                 //error handling
                 this.app.use(errorHandler());
                 this.logger.info("Configuring app complete");
@@ -77,6 +135,5 @@ export class Server {
     private routesAdd() {
         let routes: IndexRoute = new IndexRoute(this.logger, this.router);
         routes.create('');
-        this.app.use(this.router);
     }
 }
