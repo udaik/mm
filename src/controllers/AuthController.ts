@@ -1,9 +1,8 @@
 import { AbstractController } from "./AbstractController";
 import { NextFunction, Request, Response } from "express";
-// import { RequestValidation } from "express-validator";
-import { UserController } from "./UserController";
 import { Logger } from "log4js";
-import { authenticate } from "passport";
+import { User, UserModelInterface } from "../models/UserModel";
+import * as bcrypt from "bcrypt";
 
 export class AuthController extends AbstractController {
     logger: Logger;
@@ -35,105 +34,50 @@ export class AuthController extends AbstractController {
     }
 
     loginGet(req: Request, resp: Response, next: NextFunction): void {
-        resp.render('login');
+        resp.statusCode = 200;
+        resp.send({ error: "OK" });
         next();
     }
 
-    register(req: Request, resp: Response, next: NextFunction): void {
+    registerGet(req: Request, resp: Response, next: NextFunction): void {
         next();
-        /*
-        var name = req.body.name;
-        var email = req.body.email;
-        var username = req.body.username;
-        var password = req.body.password;
-        var password2 = req.body.password2;
+    }
 
-        // Validation
-        req.checkBody('name', 'Name is required').notEmpty();
-        req.checkBody('email', 'Email is required').notEmpty();
-        req.checkBody('email', 'Email is not valid').isEmail();
-        req.checkBody('username', 'Username is required').notEmpty();
+    registerPost(req: Request, resp: Response, next: NextFunction): void {
+        req.checkBody('username', 'Email is required').notEmpty();
+        req.checkBody('username', 'Email is not valid').isEmail();
         req.checkBody('password', 'Password is required').notEmpty();
         req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
-
         var errors = req.validationErrors();
 
         if (errors) {
-            resp.render('register', {
-                errors: errors
-            });
+            resp.statusCode = 400
+            resp.send(errors);
         } else {
-            /*
-            var newUser = new User({
-                name: name,
-                email: email,
-                username: username,
-                password: password
+            let email: string = req.body.username;
+            let username: string = req.body.username;
+            let password: string = req.body.password;
+
+            bcrypt.genSalt(10).then((salt) => {
+                return bcrypt.hash(password, salt)
+            }).then((hash) => {
+                let user : UserModelInterface = new User({ userName: username, password: hash, email: email });
+                return user.save();
+            }).then((args) => {
+                resp.statusCode = 200
+                resp.send(args);
+            }, (args) => {
+                resp.statusCode = 500;
+                resp.send(args);
             });
-
-            /*
-            User.createUser(newUser, function (err, user) {
-                if (err) throw err;
-                console.log(user);
-            });
-            */
-
-            /*
-            req.flash('success_msg', 'You are registered and can now login');
-
-            resp.redirect('/users/login');
-            
         }
-        */
     }
 
     loginPost(req: Request, resp: Response, next: NextFunction): void {
-        authenticate('local', { successRedirect: '/', failureRedirect: '/users/login', failureFlash: true });
-
-        /*
-            function (req, resp) {
-                res.redirect('/');
-            };
-            */
+        next();
     }
 
     loginOut(req: Request, resp: Response, next: NextFunction): void {
-        req.logout();
-        req.flash('success_msg', 'You are logged out');
-        resp.redirect('/users/login');
+        next()
     }
 }
-
-
-/*
-
-
-passport.use(new LocalStrategy(
-    function (username, password, done) {
-        User.getUserByUsername(username, function (err, user) {
-            if (err) throw err;
-            if (!user) {
-                return done(null, false, { message: 'Unknown User' });
-            }
-
-            User.comparePassword(password, user.password, function (err, isMatch) {
-                if (err) throw err;
-                if (isMatch) {
-                    return done(null, user);
-                } else {
-                    return done(null, false, { message: 'Invalid password' });
-                }
-            });
-        });
-    }));
-
-passport.serializeUser(function (user, done) {
-    done(null, user.id);
-});
-
-passport.deserializeUser(function (id, done) {
-    User.getUserById(id, function (err, user) {
-        done(err, user);
-    });
-});
-*/

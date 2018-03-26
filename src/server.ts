@@ -3,14 +3,11 @@ import * as cookieParser from "cookie-parser";
 import * as express from "express";
 import * as logger from "morgan";
 import * as errorHandler from "errorhandler";
-import * as path from "path";
-import * as exphbs from "express-handlebars";
 import * as session from 'express-session';
 import * as passport from "passport";
 import * as expressValidator from "express-validator";
-// import * as flash from 'connect-flash';
 
-import { IndexRoute } from "./routes/index";
+import { APIRoute } from "./routes/APIRoute";
 import { Logging } from "./logging/Logging";
 import { Logger, Configuration } from "log4js";
 import { Database } from "./database/Database";
@@ -39,11 +36,17 @@ export class Server {
         this.logger = logging.init();
         this.logger.debug("Instantiating the Server");
         this.router = express.Router();
-        this.db = new Database("mongodb://localhost:27017/money-manager", this.logger);
+        this.db = new Database("mongodb://127.0.0.1:27017/money-manager", this.logger);
         this.app = express();
-        this.configure();
-        this.routesAdd();
-        this.api();
+        this.configure().then(
+            () => {
+                this.routesAdd();
+                this.api();
+            },
+            () => {
+                this.logger.fatal("failed to configure the app");
+            }
+        );
     }
 
     public api() {
@@ -51,27 +54,21 @@ export class Server {
 
     public configure() {
         const options: ConnectionOptions = {
-            reconnectTries: Number.MAX_VALUE,
+            connectTimeoutMS: 100,
+            socketTimeoutMS: 0,
             reconnectInterval: 500,
             poolSize: 10,
             bufferMaxEntries: 0
+
         };
 
-        this.db.pInit(options).then(
+        return this.db.pInit(options).then(
             () => {
-
-                this.app.set('views', path.join(__dirname, 'views'));
-                this.app.engine('handlebars', exphbs({ defaultLayout: 'layout' }));
-                this.app.set('view engine', 'handlebars');
-
                 this.app.use(logger("dev"));
                 this.app.use(bodyParser.json());
                 this.app.use(bodyParser.urlencoded({
                     extended: true
                 }));
-
-                // Set Static Folder
-                this.app.use(express.static(path.join(__dirname, 'public')));
 
                 // Express Session
                 this.app.use(session({
@@ -103,18 +100,6 @@ export class Server {
                     }
                 }));
 
-                // Connect Flash
-                // this.app.use(flash());
-
-                // Global Vars
-                this.app.use(function (req, res, next) {
-                    res.locals.success_msg = req.flash('success_msg');
-                    res.locals.error_msg = req.flash('error_msg');
-                    res.locals.error = req.flash('error');
-                    res.locals.user = req.user || null;
-                    next();
-                });
-
                 this.app.use(cookieParser());
                 this.app.use(function (err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
                     err.status = 404;
@@ -133,7 +118,7 @@ export class Server {
     }
 
     private routesAdd() {
-        let routes: IndexRoute = new IndexRoute(this.logger, this.router);
+        let routes: APIRoute = new APIRoute(this.logger, this.router);
         routes.create('');
     }
 }

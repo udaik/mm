@@ -1,4 +1,4 @@
-//import { User } from "../models/UserModel";
+import { User } from "../models/UserModel";
 import { AbstractController } from "./AbstractController";
 import { NextFunction, Request, Response } from "express";
 import { Logger } from "log4js";
@@ -13,48 +13,55 @@ export class UserController extends AbstractController {
     };
 
     create(req: Request, resp: Response, next: NextFunction): void {
-        /*
-        genSalt(10, function (err, salt) {
-            hash(newUser.password, salt, function (err, hash) {
-                newUser.password = hash;
-                newUser.save(callback);
-            });
-        });
-        */
+        /* user needs be created from registration */
         next();
     };
 
     findAll(req: Request, resp: Response, next: NextFunction): void {
-        next();
+        User.find().then((users) => {
+            users.forEach((u) => {
+                console.log(u)
+                delete u.password
+            });
+            resp.statusCode = 200;
+            resp.send(users)
+        }).catch((err) => {
+            resp.statusCode = 400;
+            resp.send(err)
+        })
     };
 
     findOne(req: Request, resp: Response, next: NextFunction): void {
-        next();
+        var query = { _id: req.params.id }
+        User.find(query).then((user) => {
+            resp.statusCode = 200
+            resp.send(user);
+        }).catch((err) => {
+            resp.statusCode = 400
+            resp.send(err)
+        });
     };
 
+    findOneByName(req: Request, resp: Response, next: NextFunction): void {
+        console.log(req.params)
+        var query = { userName: req.params.name }
+        User.find(query).then((user) => {
+            resp.statusCode = 200
+            resp.send(user);
+        }).catch((err) => {
+            resp.statusCode = 400
+            resp.send(err)
+        });
+    };
+
+
     update(req: Request, resp: Response, next: NextFunction): void {
+        console.log('update')
         next();
     };
 
     delete(req: Request, resp: Response, next: NextFunction): void {
+        console.log("delete")
         next();
     };
-
-    /*
-    UserSchema.getUserByUsername = function (username: string, callback) {
-        var query = { username: username };
-        User.findOne(query, callback);
-    }
-
-    UserSchema.getUserById = function (id, callback) {
-        User.findById(id, callback);
-    }
-
-    UserSchema.comparePassword = function (candidatePassword, hash, callback) {
-        bcrypt.compare(candidatePassword, hash, function (err, isMatch) {
-            if (err) throw err;
-            callback(null, isMatch);
-        });
-    }
-    */
 }

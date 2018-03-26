@@ -11,22 +11,16 @@ export class Database extends DBInterface {
         this.logging = logging;
     }
 
-    pInit(options: ConnectionOptions): Promise<Connection> {
+    pInit(options: ConnectionOptions): Promise<any> {
         this.db = connection;
-        const promise = new Promise<Connection>((resolve, reject) => {
-            this.db.once('open', () => {
-                this.logging.debug('Opened the Database')
-                resolve(connection);
-            });
-
-            this.db.on('error', () => {
-                this.logging.fatal("Failed to connect to the database");
-                reject(connection);
-            });
-
-        });
-        connect(this.url, options, );
-        return promise;
+        return connect(this.url, options).then(
+            () => {
+                this.logging.debug('Opened the Database Connection')
+            },
+            (err) => {
+                this.logging.fatal("Failed to connect to the database", err);
+            }
+        );
     }
 
     pClose(): void {

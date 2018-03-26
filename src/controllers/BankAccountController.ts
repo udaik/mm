@@ -10,7 +10,6 @@ export class BankAccountController extends AbstractController {
     constructor(logging: Logger) {
         super(logging);
         this.logger = logging;
-        logging.debug("debug ssssssssssssssss")
         this.logger.debug("BankAccount Controller Instantiated");
     }
 
