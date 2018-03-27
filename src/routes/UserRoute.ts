@@ -12,7 +12,7 @@ export class UserRoute extends RouterAbstract {
         this.router = router;
     }
 
-    mount(mount_path: string): void {
+    mount = (mount_path: string): void => {
         this.controller = new UserController(this.logging);
         this.logging.debug("UserRoute ", mount_path);
 

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { BankAccountRoute } from "./BankAccountRoute";
+import { AccountRoute } from "./AccountRoute";
 import { BaseRoute } from "./route";
 import { Logger } from "log4js";
 import { AuthRoute } from "./AuthRoute";
@@ -9,29 +9,8 @@ export class APIRoute extends BaseRoute {
     logging: Logger;
     router: Router;
 
-    /*
-    private ensureAuthenticated(req: Request, res: Response, next: NextFunction) {
-        if (req.isAuthenticated()) {
-            return next();
-        } else {
-            res.redirect('/users/login');
-        }
-    }
-    */
-
     public create(path: string): void {
         this.logging.debug("[APIRoute::create] Creating index route.");
-
-        /*
-        this.router.get('/', this.ensureAuthenticated, (req: Request, res: Response, next: NextFunction) => {
-            res.render('index');
-        });
-        */
-        this.router.get('/', (req: Request, res: Response, next: NextFunction) => {
-            console.log("here iam");
-            res.statusCode = 200;
-            res.send({ error: 'OK' })
-        });
 
         let API_VERSION = "/api/v0.1"
 
@@ -45,10 +24,10 @@ export class APIRoute extends BaseRoute {
         this.logging.debug("user route path ", user_api)
         user.mount(user_api);
 
-        let bankAccount_path: string = API_VERSION + '/user/:id/accounts';
-        let br: BankAccountRoute = new BankAccountRoute(this.logging, this.router);
-        this.logging.debug("bank route path ", bankAccount_path)
-        br.mount(bankAccount_path);
+        let accountRestAPIPath: string = API_VERSION + '/user/:id/account';
+        let accountRestAPIPathObj: AccountRoute = new AccountRoute(this.logging, this.router);
+        this.logging.debug("bank route path ", accountRestAPIPath)
+        accountRestAPIPathObj.mount(accountRestAPIPath);
     }
 
     constructor(logging: Logger, router: Router) {

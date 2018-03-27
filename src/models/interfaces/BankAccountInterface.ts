@@ -1,4 +1,4 @@
-import { AccountType } from "../schemas/AccountType"
+// import { AccountType } from "../schemas/AccountType"
 
 export interface BankAccountInterface {
     userInfo: {
@@ -8,6 +8,7 @@ export interface BankAccountInterface {
     name: string;
     balance: number;
     isActive: boolean;
+    /*
     accountType: AccountType;
 
     branch: {
@@ -32,4 +33,5 @@ export interface BankAccountInterface {
         debits: number;
         credits: number;
     };
+    */
 }

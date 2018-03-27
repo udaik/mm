@@ -9,6 +9,4 @@ export abstract class RouterAbstract {
         this.logging = logging;
         this.router = router;
     }
-
-    abstract mount(mount_point: string): void;
 };
