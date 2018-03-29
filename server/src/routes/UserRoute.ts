@@ -1,15 +1,33 @@
-import { Router } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import { UserController } from "../controllers/UserController";
 import { Logger } from 'log4js';
 import { RouterAbstract } from "./RouterAbstract";
 
 export class UserRoute extends RouterAbstract {
+    private logging: Logger;
+    private router: Router;
     private controller: UserController;
 
     constructor(logging: Logger, router: Router) {
-        super(logging, router);
+        super();
         this.logging = logging;
         this.router = router;
+    }
+
+    create(req: Request, resp: Response, next: NextFunction): void {
+        next();
+    }
+
+    retrieve(req: Request, resp: Response, next: NextFunction): void {
+        next();
+    }
+
+    update(req: Request, resp: Response, next: NextFunction): void {
+        next();
+    }
+
+    delete(req: Request, resp: Response, next: NextFunction): void {
+        next();
     }
 
     mount = (mount_path: string): void => {
@@ -19,7 +37,7 @@ export class UserRoute extends RouterAbstract {
         this.router.post(mount_path + '/user', this.controller.create);
         this.logging.debug("user create - post ", mount_path + '/user');
 
-        this.router.get(mount_path + '/user', this.controller.findAll);
+        this.router.get(mount_path + '/user', this.controller.retrieve);
         this.logging.debug("user get all - post ", mount_path + '/user');
 
         this.router.get(mount_path + '/user/:id', this.controller.findOne);

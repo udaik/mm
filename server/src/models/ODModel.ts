@@ -1,5 +1,5 @@
 import { Document, Model } from "mongoose";
-import { BankAccount } from "./BankAccountModel";
+import { BankAccount } from "./BankModel";
 import { ODAccountSchema } from "./schemas/ODAccountSchema";
 import { ODAccountInterface } from "./interfaces/ODAccountInterface";
 

@@ -14,13 +14,10 @@ export class BankAccountController extends AbstractController {
     }
 
     create(req: Request, resp: Response, next: NextFunction): void {
-        console.log(req.params);
-        console.log(req.params);
-        console.log(req.body);
         next();
     }
 
-    findAll(req: Request, resp: Response, next: NextFunction): void {
+    retrieve(req: Request, resp: Response, next: NextFunction): void {
         const promise = new Promise((resolve, reject) => {
             BankAccount.find(function (err, docs) {
                 if (err)
@@ -41,10 +38,6 @@ export class BankAccountController extends AbstractController {
         }
 
         promise.then(success, failure);
-    }
-
-    findOne(req: Request, resp: Response, next: NextFunction): void {
-        next();
     }
 
     update(req: Request, resp: Response, next: NextFunction): void {

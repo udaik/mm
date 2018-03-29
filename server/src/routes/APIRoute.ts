@@ -1,11 +1,10 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { AccountRoute } from "./AccountRoute";
-import { BaseRoute } from "./route";
 import { Logger } from "log4js";
 import { AuthRoute } from "./AuthRoute";
 import { UserRoute } from "./UserRoute";
 
-export class APIRoute extends BaseRoute {
+export class APIRoute {
     logging: Logger;
     router: Router;
 
@@ -31,7 +30,6 @@ export class APIRoute extends BaseRoute {
     }
 
     constructor(logging: Logger, router: Router) {
-        super();
         this.logging = logging;
         this.router = router;
         this.logging.debug("initialized Index route");

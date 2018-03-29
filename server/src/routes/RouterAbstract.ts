@@ -1,12 +1,15 @@
-import { Router } from "express";
-import { Logger } from 'log4js';
+import { Request, Response, NextFunction } from "express";
 
 export abstract class RouterAbstract {
-    logging: Logger;
-    router: Router;
 
-    constructor(logging: Logger, router: Router) {
-        this.logging = logging;
-        this.router = router;
+    constructor() {
     }
+
+    abstract create(req: Request, resp: Response, next: NextFunction): void;
+
+    abstract retrieve(req: Request, resp: Response, next: NextFunction): void;
+
+    abstract update(req: Request, resp: Response, next: NextFunction): void;
+
+    abstract delete(req: Request, resp: Response, next: NextFunction): void;
 };

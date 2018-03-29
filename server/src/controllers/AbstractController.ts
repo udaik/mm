@@ -10,9 +10,7 @@ export abstract class AbstractController {
 
     abstract create(req: Request, resp: Response, next: NextFunction): void;
 
-    abstract findAll(req: Request, resp: Response, next: NextFunction): void;
-
-    abstract findOne(req: Request, resp: Response, next: NextFunction): void;
+    abstract retrieve(req: Request, resp: Response, next: NextFunction): void;
 
     abstract update(req: Request, resp: Response, next: NextFunction): void;
 

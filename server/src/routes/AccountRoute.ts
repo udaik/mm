@@ -2,98 +2,49 @@ import { Router } from "express";
 import { Logger } from 'log4js';
 import { RouterAbstract } from "./RouterAbstract";
 import { Request, Response, NextFunction } from "express-serve-static-core";
-import { BankAccount } from "../models/BankAccountModel";
-import { Model } from "mongoose";
+import { BankRoute } from "../routes/BankRoute";
+import { WalletRoute } from "./WalletRoute";
+import { ODRoute } from "../routes/ODRoute";
+import { CreditCardRoute } from "../routes/CreditCardRoute";
+import { ExpenseRoute } from "../routes/ExpenseRoute";
+import { MutualFundRoute } from "../routes/MutualFundRoute";
 import { Dictionary } from "typescript-collections";
 
-export class AccountRoute extends RouterAbstract {
-
-    private modelsDict: Dictionary<string, Model<any>>;
+export class AccountRoute {
+    private routes: Dictionary<string, RouterAbstract>;
+    private logging: Logger;
+    private router: Router;
 
     constructor(logging: Logger, router: Router) {
-        super(logging, router);
         this.logging = logging;
         this.router = router;
-        this.modelsDict = new Dictionary<string, Model<any>>();
-        this.modelsDict.setValue('BANK_ACCOUNT', BankAccount);
+
+        this.routes = new Dictionary<string, RouterAbstract>();
+        let bankAccountRoute = new BankRoute(logging, router);
+        this.routes.setValue('BANK_ACCOUNT', bankAccountRoute);
     }
 
     create = (req: Request, resp: Response, next: NextFunction): void => {
-        console.log(req.body);
-        console.log(req.body.type);
-        console.log(this.modelsDict);
-
-        var objModel = this.modelsDict.getValue(req.body.type)
-        var dataObj = new objModel(req.body.data);
-
-        dataObj.userInfo.userId = req.params.id;
-        dataObj.save().then((obj: any) => {
-            resp.statusCode = 200;
-            resp.send(obj);
-        }).catch((err: any) => {
-            resp.statusCode = 400;
-            resp.send(err);
-        });
+        let routerObject: RouterAbstract = this.routes.getValue(req.body.type);
+        routerObject.create(req, resp, next);
     }
 
     retrieve = (req: Request, resp: Response, next: NextFunction): void => {
-
-        switch (req.body.type) {
-            case 'BANK_ACCOUNT': {
-                BankAccount.find({ 'userInfo.userId': req.params.userId }).then((accounts) => {
-                    resp.statusCode = 200;
-                    resp.send(accounts)
-                });
-                break;
-            }
-        }
+        let routerObject: RouterAbstract = this.routes.getValue(req.body.type);
+        routerObject.retrieve(req, resp, next);
     }
 
     update = (req: Request, resp: Response, next: NextFunction): void => {
-        switch (req.body.type) {
-            case 'BANK_ACCOUNT': {
-                let q = {
-                    'userInfo.userId': req.params.id,
-                    'name': req.body.data.name
-                }
-
-                BankAccount.update(q, req.body.data).then((accounts) => {
-                    console.log(accounts);
-                    resp.statusCode = 200;
-                    resp.send(accounts)
-                }).catch((err) => {
-                    resp.statusCode = 400;
-                    resp.send(err);
-                });
-
-                break;
-            }
-        }
+        let routerObject: RouterAbstract = this.routes.getValue(req.body.type);
+        routerObject.update(req, resp, next);
     }
 
     delete = (req: Request, resp: Response, next: NextFunction): void => {
-        switch (req.body.type) {
-            case 'BANK_ACCOUNT': {
-                let q = {
-                    'userInfo.userId': req.params.id,
-                    'name': req.body.data.name
-                }
-
-                BankAccount.deleteOne(q).then((account) => {
-                    resp.statusCode = 200;
-                    resp.send(account);
-                }).catch((err) => {
-                    resp.statusCode = 400;
-                    resp.send(err);
-                });
-
-                break;
-            }
-        }
+        let routerObject: RouterAbstract = this.routes.getValue(req.body.type);
+        routerObject.delete(req, resp, next);
     }
 
     mount = (mount_path: string): void => {
-
         this.logging.debug("AccountRoute ", mount_path);
 
         this.router.put(mount_path, this.create);

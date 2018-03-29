@@ -17,7 +17,7 @@ export class AuthController extends AbstractController {
         next();
     }
 
-    findAll(req: Request, resp: Response, next: NextFunction): void {
+    retrieve(req: Request, resp: Response, next: NextFunction): void {
         next();
     }
 

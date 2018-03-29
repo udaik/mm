@@ -1,6 +1,6 @@
 // import { AccountType } from "../schemas/AccountType"
 
-export interface BankAccountInterface {
+export interface BankInterface {
     userInfo: {
         userId: string,
     },

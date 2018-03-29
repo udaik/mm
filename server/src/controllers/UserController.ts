@@ -17,7 +17,7 @@ export class UserController extends AbstractController {
         next();
     };
 
-    findAll(req: Request, resp: Response, next: NextFunction): void {
+    retrieve(req: Request, resp: Response, next: NextFunction): void {
         User.find().then((users) => {
             users.forEach((u) => {
                 console.log(u)
