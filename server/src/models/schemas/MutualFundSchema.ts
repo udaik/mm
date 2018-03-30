@@ -1,7 +1,7 @@
 import { Schema } from "mongoose";
 import { options } from "./AccountOptions";
 
-export const MUTUAL_FUND_SCHEMA: Schema = new Schema({
+export const MutualFundSchema: Schema = new Schema({
     userInfo: {
         userId: { type: Schema.Types.ObjectId },
     },

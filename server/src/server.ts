@@ -102,7 +102,7 @@ export class Server {
 
                 this.app.use(cookieParser());
                 this.app.use(function (err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
-                    err.status = 404;
+                    err.status = 402;
                     next(err);
                 });
                 this.app.use(this.router);

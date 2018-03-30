@@ -1,10 +1,9 @@
 import { Document, Model, model } from "mongoose";
-import { BankAccountSchema } from "./schemas/BankAccountSchema";
-import { BankAccountInterface } from "./interfaces/BankAccountInterface";
+import { BankSchema } from "./schemas/BankSchema";
+import { BankInterface } from "./interfaces/BankInterface";
 
-export interface BankAccountModelInterface extends BankAccountInterface, Document {
-    balanceGet(): number;
-    nameGet(): number;
+export interface BankModelInterface extends BankInterface, Document {
+    balance: number;
 }
 
-export const BankAccount: Model<BankAccountModelInterface> = model<BankAccountModelInterface>("BankAccount", BankAccountSchema);
+export const Bank: Model<BankModelInterface> = model<BankModelInterface>("Bank", BankSchema);

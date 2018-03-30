@@ -15,6 +15,7 @@ export class UserRoute extends RouterAbstract {
     }
 
     create(req: Request, resp: Response, next: NextFunction): void {
+        console.log("user create");
         next();
     }
 

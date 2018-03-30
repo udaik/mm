@@ -1,7 +1,7 @@
 import { Schema } from "mongoose";
 import { options } from "./AccountOptions";
 
-export var BankAccountSchema: Schema = new Schema({
+export var BankSchema: Schema = new Schema({
     userInfo: {
         userId: { type: Schema.Types.ObjectId },
     },

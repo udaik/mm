@@ -36,7 +36,7 @@ export class APIRoute {
     }
 
     public index(req: Request, res: Response, next: NextFunction) {
-        res.statusCode = 404;
+        res.statusCode = 402;
         res.send({ code: "None" });
     }
 }

@@ -1,7 +1,7 @@
 import { Schema } from "mongoose";
 import { options } from "./AccountOptions";
 
-export const CREDIT_CARD_SCHEMA: Schema = new Schema({
+export const CreditCardSchema: Schema = new Schema({
     userInfo: {
         userId: { type: Schema.Types.ObjectId },
     },

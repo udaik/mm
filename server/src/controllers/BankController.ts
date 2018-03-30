@@ -1,50 +1,36 @@
-import { BankAccount } from "../models/BankAccountModel";
-// import { AccountType } from "../models/schemas/AccountType";
 import { AbstractController } from "./AbstractController";
 import { NextFunction, Request, Response } from "express";
 import { Logger } from "log4js";
+import { Bank } from "../models/BankModel";
 
-export class BankAccountController extends AbstractController {
-    logger: Logger;
+export class BankController extends AbstractController {
+    private logger: Logger;
 
     constructor(logging: Logger) {
         super(logging);
         this.logger = logging;
-        this.logger.debug("BankAccount Controller Instantiated");
+        this.logger.debug("Bank Account Controller Instantiated");
     }
 
     create(req: Request, resp: Response, next: NextFunction): void {
+        this.logger.debug("Bank Controller create");
+        let b = new Bank();
+        b.save()
         next();
     }
 
     retrieve(req: Request, resp: Response, next: NextFunction): void {
-        const promise = new Promise((resolve, reject) => {
-            BankAccount.find(function (err, docs) {
-                if (err)
-                    reject(err);
-                else
-                    resolve(docs);
-            });
-        });
-
-        function success(documents: any): void {
-            resp.statusCode = 200;
-            resp.send(documents);
-        }
-
-        function failure(err: any): void {
-            resp.statusCode = 300;
-            resp.send(err);
-        }
-
-        promise.then(success, failure);
+        this.logger.debug("Bank Controller retrieve");
+        next();
     }
 
     update(req: Request, resp: Response, next: NextFunction): void {
+        this.logger.debug("Bank Controller uodate");
         next();
     }
 
     delete(req: Request, resp: Response, next: NextFunction): void {
+        this.logger.debug("Bank Controller delete");
         next();
     }
 }

@@ -1,35 +1,32 @@
 import { Router, Request, Response, NextFunction } from "express";
-import { WalletController } from "../controllers/BankController";
+import { BankController } from "../controllers/BankController";
 import { Logger } from 'log4js';
 import { RouterAbstract } from "./RouterAbstract";
+import { ObjectRoute } from "./ObjectRoute";
 
 export class BankRoute extends RouterAbstract {
-    private bankAccountController: BankAccountController;
-    // private logging: Logger;
+    private bankController: BankController;
+    public route: ObjectRoute;
 
     constructor(logging: Logger, router: Router) {
         super();
-        // this.logging = logging;
-        this.bankAccountController = new BankAccountController(logging);
+        this.route = ObjectRoute.bank;
+        this.bankController = new BankController(logging);
     }
 
     create(req: Request, resp: Response, next: NextFunction): void {
-        this.bankAccountController.create(req, resp, next);
-        next();
+        this.bankController.create(req, resp, next);
     }
 
     retrieve(req: Request, resp: Response, next: NextFunction): void {
-        this.bankAccountController.retrieve(req, resp, next);
-        next();
+        this.bankController.retrieve(req, resp, next);
     }
 
     update(req: Request, resp: Response, next: NextFunction): void {
-        this.bankAccountController.update(req, resp, next);
-        next();
+        this.bankController.update(req, resp, next);
     }
 
     delete(req: Request, resp: Response, next: NextFunction): void {
-        this.bankAccountController.delete(req, resp, next);
-        next();
+        this.bankController.delete(req, resp, next);
     }
 }

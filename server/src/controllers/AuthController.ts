@@ -34,8 +34,6 @@ export class AuthController extends AbstractController {
     }
 
     loginGet(req: Request, resp: Response, next: NextFunction): void {
-        resp.statusCode = 200;
-        resp.send({ error: "OK" });
         next();
     }
 
@@ -44,6 +42,7 @@ export class AuthController extends AbstractController {
     }
 
     registerPost(req: Request, resp: Response, next: NextFunction): void {
+        console.log("register post")
         req.checkBody('username', 'Email is required').notEmpty();
         req.checkBody('username', 'Email is not valid').isEmail();
         req.checkBody('password', 'Password is required').notEmpty();

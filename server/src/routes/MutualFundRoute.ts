@@ -1,32 +1,32 @@
 import { Router, Request, Response, NextFunction } from "express";
-import { ODController } from "../controllers/ODController";
+import { MutualFundController } from "../controllers/MutualFundController";
 import { Logger } from 'log4js';
 import { RouterAbstract } from "./RouterAbstract";
 import { ObjectRoute } from "./ObjectRoute";
 
-export class ODRoute extends RouterAbstract {
-    private odController: ODController;
+export class MutualFundRoute extends RouterAbstract {
+    private mutualFundController: MutualFundController;
     public route: ObjectRoute;
 
     constructor(logging: Logger, router: Router) {
         super();
-        this.route = ObjectRoute.od;
-        this.odController = new ODController(logging);
+        this.route = ObjectRoute.mf;
+        this.mutualFundController = new MutualFundController(logging);
     }
 
     create(req: Request, resp: Response, next: NextFunction): void {
-        this.odController.create(req, resp, next);
+        this.mutualFundController.create(req, resp, next);
     }
 
     retrieve(req: Request, resp: Response, next: NextFunction): void {
-        this.odController.retrieve(req, resp, next);
+        this.mutualFundController.retrieve(req, resp, next);
     }
 
     update(req: Request, resp: Response, next: NextFunction): void {
-        this.odController.update(req, resp, next);
+        this.mutualFundController.update(req, resp, next);
     }
 
     delete(req: Request, resp: Response, next: NextFunction): void {
-        this.odController.delete(req, resp, next);
+        this.mutualFundController.delete(req, resp, next);
     }
 }

@@ -1,9 +1,9 @@
-import { Document, Model } from "mongoose";
-import { BankAccount } from "./BankModel";
-import { ODAccountSchema } from "./schemas/ODAccountSchema";
-import { ODAccountInterface } from "./interfaces/ODAccountInterface";
+import { Document, Model, model } from "mongoose";
+import { ODSchema } from "./schemas/ODSchema";
+import { ODInterface } from "./interfaces/ODInterface";
 
-export interface ODAccountModelInterface extends ODAccountInterface, Document {
+export interface ODModelInterface extends ODInterface, Document {
+
 }
 
-export const ODAccount: Model<ODAccountModelInterface> = BankAccount.discriminator('ODAccount', ODAccountSchema);
+export const ODModel: Model<ODModelInterface> = model<ODModelInterface>("ODAccount", ODSchema);

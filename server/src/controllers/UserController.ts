@@ -13,6 +13,7 @@ export class UserController extends AbstractController {
     };
 
     create(req: Request, resp: Response, next: NextFunction): void {
+        console.log("create");
         /* user needs be created from registration */
         next();
     };
