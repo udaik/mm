@@ -10,23 +10,23 @@ export class ExpenseRoute extends RouterAbstract {
 
     constructor(logging: Logger, router: Router) {
         super();
-        this.route = ObjectRoute.expense; 
+        this.route = ObjectRoute.EXPENSE;
         this.expenseController = new ExpenseController(logging);
     }
 
-    create(req: Request, resp: Response, next: NextFunction): void {
+    create = (req: Request, resp: Response, next: NextFunction): void => {
         this.expenseController.create(req, resp, next);
     }
 
-    retrieve(req: Request, resp: Response, next: NextFunction): void {
+    retrieve = (req: Request, resp: Response, next: NextFunction): void => {
         this.expenseController.retrieve(req, resp, next);
     }
 
-    update(req: Request, resp: Response, next: NextFunction): void {
+    update = (req: Request, resp: Response, next: NextFunction): void => {
         this.expenseController.update(req, resp, next);
     }
 
-    delete(req: Request, resp: Response, next: NextFunction): void {
+    delete = (req: Request, resp: Response, next: NextFunction): void => {
         this.expenseController.delete(req, resp, next);
     }
 }

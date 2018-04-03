@@ -7,26 +7,26 @@ import { ObjectRoute } from "./ObjectRoute";
 export class WalletRoute extends RouterAbstract {
     private walletController: WalletController;
     public route: ObjectRoute;
-    
+
     constructor(logging: Logger, router: Router) {
         super();
-        this.route = ObjectRoute.bank;
+        this.route = ObjectRoute.WALLET;
         this.walletController = new WalletController(logging);
     }
 
-    create(req: Request, resp: Response, next: NextFunction): void {
+    create = (req: Request, resp: Response, next: NextFunction): void => {
         this.walletController.create(req, resp, next);
     }
 
-    retrieve(req: Request, resp: Response, next: NextFunction): void {
+    retrieve = (req: Request, resp: Response, next: NextFunction): void => {
         this.walletController.retrieve(req, resp, next);
     }
 
-    update(req: Request, resp: Response, next: NextFunction): void {
+    update = (req: Request, resp: Response, next: NextFunction): void => {
         this.walletController.update(req, resp, next);
     }
 
-    delete(req: Request, resp: Response, next: NextFunction): void {
+    delete = (req: Request, resp: Response, next: NextFunction): void => {
         this.walletController.delete(req, resp, next);
     }
 }

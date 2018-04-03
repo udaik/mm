@@ -7,26 +7,26 @@ import { ObjectRoute } from "./ObjectRoute";
 export class CreditCardRoute extends RouterAbstract {
     private creditCardController: CreditCardController;
     public route: ObjectRoute;
-    
+
     constructor(logging: Logger, router: Router) {
         super();
-        this.route = ObjectRoute.creditCard;
+        this.route = ObjectRoute.CREDIT_CARD;
         this.creditCardController = new CreditCardController(logging);
     }
 
-    create(req: Request, resp: Response, next: NextFunction): void {
+    create = (req: Request, resp: Response, next: NextFunction): void => {
         this.creditCardController.create(req, resp, next);
     }
 
-    retrieve(req: Request, resp: Response, next: NextFunction): void {
+    retrieve = (req: Request, resp: Response, next: NextFunction): void => {
         this.creditCardController.retrieve(req, resp, next);
     }
 
-    update(req: Request, resp: Response, next: NextFunction): void {
+    update = (req: Request, resp: Response, next: NextFunction): void => {
         this.creditCardController.update(req, resp, next);
     }
 
-    delete(req: Request, resp: Response, next: NextFunction): void {
+    delete = (req: Request, resp: Response, next: NextFunction): void => {
         this.creditCardController.delete(req, resp, next);
     }
 }

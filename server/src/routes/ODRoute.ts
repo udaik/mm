@@ -10,23 +10,23 @@ export class ODRoute extends RouterAbstract {
 
     constructor(logging: Logger, router: Router) {
         super();
-        this.route = ObjectRoute.od;
+        this.route = ObjectRoute.OD;
         this.odController = new ODController(logging);
     }
 
-    create(req: Request, resp: Response, next: NextFunction): void {
+    create = (req: Request, resp: Response, next: NextFunction): void => {
         this.odController.create(req, resp, next);
     }
 
-    retrieve(req: Request, resp: Response, next: NextFunction): void {
+    retrieve = (req: Request, resp: Response, next: NextFunction): void => {
         this.odController.retrieve(req, resp, next);
     }
 
-    update(req: Request, resp: Response, next: NextFunction): void {
+    update = (req: Request, resp: Response, next: NextFunction): void => {
         this.odController.update(req, resp, next);
     }
 
-    delete(req: Request, resp: Response, next: NextFunction): void {
+    delete = (req: Request, resp: Response, next: NextFunction): void => {
         this.odController.delete(req, resp, next);
     }
 }

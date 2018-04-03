@@ -10,23 +10,23 @@ export class EquityRoute extends RouterAbstract {
 
     constructor(logging: Logger, router: Router) {
         super();
-        this.route = ObjectRoute.equity;
+        this.route = ObjectRoute.EQUITY;
         this.equityController = new EquityController(logging);
     }
 
-    create(req: Request, resp: Response, next: NextFunction): void {
+    create = (req: Request, resp: Response, next: NextFunction): void => {
         this.equityController.create(req, resp, next);
     }
 
-    retrieve(req: Request, resp: Response, next: NextFunction): void {
+    retrieve = (req: Request, resp: Response, next: NextFunction): void => {
         this.equityController.retrieve(req, resp, next);
     }
 
-    update(req: Request, resp: Response, next: NextFunction): void {
+    update = (req: Request, resp: Response, next: NextFunction): void => {
         this.equityController.update(req, resp, next);
     }
 
-    delete(req: Request, resp: Response, next: NextFunction): void {
+    delete = (req: Request, resp: Response, next: NextFunction): void => {
         this.equityController.delete(req, resp, next);
     }
 }

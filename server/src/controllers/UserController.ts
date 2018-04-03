@@ -10,19 +10,18 @@ export class UserController extends AbstractController {
         super(logging);
         this.logger = logging;
         this.logger.debug("User Controller Instantiated");
-    };
+    };  
 
-    create(req: Request, resp: Response, next: NextFunction): void {
+    create = (req: Request, resp: Response, next: NextFunction): void => {
         console.log("create");
         /* user needs be created from registration */
         next();
     };
 
-    retrieve(req: Request, resp: Response, next: NextFunction): void {
+    retrieve = (req: Request, resp: Response, next: NextFunction): void => {
         User.find().then((users) => {
             users.forEach((u) => {
                 console.log(u)
-                delete u.password
             });
             resp.statusCode = 200;
             resp.send(users)
@@ -56,12 +55,12 @@ export class UserController extends AbstractController {
     };
 
 
-    update(req: Request, resp: Response, next: NextFunction): void {
+    update = (req: Request, resp: Response, next: NextFunction): void => {
         console.log('update')
         next();
     };
 
-    delete(req: Request, resp: Response, next: NextFunction): void {
+    delete = (req: Request, resp: Response, next: NextFunction): void => {
         console.log("delete")
         next();
     };

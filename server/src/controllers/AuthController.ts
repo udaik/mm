@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { Logger } from "log4js";
 import { User, UserModelInterface } from "../models/UserModel";
 import * as bcrypt from "bcrypt";
+import * as HttpStatus from 'http-status-codes'
 
 export class AuthController extends AbstractController {
     logger: Logger;
@@ -13,11 +14,11 @@ export class AuthController extends AbstractController {
         this.logger.debug("Auth Controller Instantiated");
     }
 
-    create(req: Request, resp: Response, next: NextFunction): void {
+    create = (req: Request, resp: Response, next: NextFunction): void => {
         next();
     }
 
-    retrieve(req: Request, resp: Response, next: NextFunction): void {
+    retrieve = (req: Request, resp: Response, next: NextFunction): void => {
         next();
     }
 
@@ -25,11 +26,11 @@ export class AuthController extends AbstractController {
         next();
     }
 
-    update(req: Request, resp: Response, next: NextFunction): void {
+    update = (req: Request, resp: Response, next: NextFunction): void => {
         next();
     }
 
-    delete(req: Request, resp: Response, next: NextFunction): void {
+    delete = (req: Request, resp: Response, next: NextFunction): void => {
         next();
     }
 
@@ -42,9 +43,8 @@ export class AuthController extends AbstractController {
     }
 
     registerPost(req: Request, resp: Response, next: NextFunction): void {
-        console.log("register post")
-        req.checkBody('username', 'Email is required').notEmpty();
-        req.checkBody('username', 'Email is not valid').isEmail();
+        req.checkBody('mmUserName', 'Email is required').notEmpty();
+        req.checkBody('mmUserName', 'Email is not valid').isEmail();
         req.checkBody('password', 'Password is required').notEmpty();
         req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
         var errors = req.validationErrors();
@@ -53,21 +53,23 @@ export class AuthController extends AbstractController {
             resp.statusCode = 400
             resp.send(errors);
         } else {
-            let email: string = req.body.username;
-            let username: string = req.body.username;
+            let email: string = req.body.mmUserName;
+            let username: string = req.body.mmUserName;
             let password: string = req.body.password;
 
             bcrypt.genSalt(10).then((salt) => {
                 return bcrypt.hash(password, salt)
             }).then((hash) => {
-                let user : UserModelInterface = new User({ userName: username, password: hash, email: email });
+                let user: UserModelInterface = new User({ mmUserName: username, password: hash, email: email });
+
                 return user.save();
             }).then((args) => {
-                resp.statusCode = 200
-                resp.send(args);
-            }, (args) => {
-                resp.statusCode = 500;
-                resp.send(args);
+                resp.status(HttpStatus.OK).send(args);
+            }).catch((err) => {
+                resp.status(HttpStatus.METHOD_FAILURE).send({
+                    error: HttpStatus.getStatusText(HttpStatus.METHOD_FAILURE),
+                    details: err
+                })
             });
         }
     }

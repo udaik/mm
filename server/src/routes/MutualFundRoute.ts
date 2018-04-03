@@ -10,23 +10,23 @@ export class MutualFundRoute extends RouterAbstract {
 
     constructor(logging: Logger, router: Router) {
         super();
-        this.route = ObjectRoute.mf;
+        this.route = ObjectRoute.MUTUAL_FUND;
         this.mutualFundController = new MutualFundController(logging);
     }
 
-    create(req: Request, resp: Response, next: NextFunction): void {
+    create = (req: Request, resp: Response, next: NextFunction): void => {
         this.mutualFundController.create(req, resp, next);
     }
 
-    retrieve(req: Request, resp: Response, next: NextFunction): void {
+    retrieve = (req: Request, resp: Response, next: NextFunction): void => {
         this.mutualFundController.retrieve(req, resp, next);
     }
 
-    update(req: Request, resp: Response, next: NextFunction): void {
+    update = (req: Request, resp: Response, next: NextFunction): void => {
         this.mutualFundController.update(req, resp, next);
     }
 
-    delete(req: Request, resp: Response, next: NextFunction): void {
+    delete = (req: Request, resp: Response, next: NextFunction): void => {
         this.mutualFundController.delete(req, resp, next);
     }
 }

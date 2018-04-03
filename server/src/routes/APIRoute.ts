@@ -15,17 +15,17 @@ export class APIRoute {
 
         let users_path: string = API_VERSION + '/auth';
         let auth: AuthRoute = new AuthRoute(this.logging, this.router);
-        this.logging.debug("auth route path ", users_path)
+        this.logging.debug("auth route:", users_path)
         auth.mount(users_path);
 
         let user_api: string = API_VERSION + '/users';
         let user: UserRoute = new UserRoute(this.logging, this.router);
-        this.logging.debug("user route path ", user_api)
+        this.logging.debug("user route:", user_api)
         user.mount(user_api);
 
-        let accountRestAPIPath: string = API_VERSION + '/user/:id/account';
+        let accountRestAPIPath: string = API_VERSION + '/user/:id/account/:type';
         let accountRestAPIPathObj: AccountRoute = new AccountRoute(this.logging, this.router);
-        this.logging.debug("bank route path ", accountRestAPIPath)
+        this.logging.debug("accounts route:", accountRestAPIPath)
         accountRestAPIPathObj.mount(accountRestAPIPath);
     }
 

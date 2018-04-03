@@ -12,22 +12,22 @@ export class ODController extends AbstractController {
         this.logger.debug("OD Controller Instantiated");
     }
 
-    create(req: Request, resp: Response, next: NextFunction): void {
+    create = (req: Request, resp: Response, next: NextFunction): void => {
         this.logger.debug("create : OD Controller ");
         next();
     }
 
-    retrieve(req: Request, resp: Response, next: NextFunction): void {
+    retrieve = (req: Request, resp: Response, next: NextFunction): void => {
         this.logger.debug("retrieve : OD Controller ");
         next();
     }
 
-    update(req: Request, resp: Response, next: NextFunction): void {
+    update = (req: Request, resp: Response, next: NextFunction): void => {
         this.logger.debug("update : OD Controller ");
         next();
     }
 
-    delete(req: Request, resp: Response, next: NextFunction): void {
+    delete = (req: Request, resp: Response, next: NextFunction): void => {
         this.logger.debug("delete : OD Controller ");
         next();
     }

@@ -1,10 +1,7 @@
 export interface TransactionInterface {
-    userInfo: {
-        userId: string,
-    },
-
-    name: string;
-    balance: number;
-    isActive?: boolean;
-
+    userId: string;
+    description: string;
+    amount: number;
+    creditAccount: number;
+    debitAccount: number;
 }

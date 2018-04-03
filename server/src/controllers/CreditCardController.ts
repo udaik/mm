@@ -12,22 +12,22 @@ export class CreditCardController extends AbstractController {
         this.logger.debug("CreditCard Account Controller Instantiated");
     }
 
-    create(req: Request, resp: Response, next: NextFunction): void {
+    create = (req: Request, resp: Response, next: NextFunction): void => {
         this.logger.debug("create : CreditCard Controller ");
         next();
     }
 
-    retrieve(req: Request, resp: Response, next: NextFunction): void {
+    retrieve = (req: Request, resp: Response, next: NextFunction): void => {
         this.logger.debug("retrieve : CreditCard Controller ");
         next();
     }
 
-    update(req: Request, resp: Response, next: NextFunction): void {
+    update = (req: Request, resp: Response, next: NextFunction): void => {
         this.logger.debug("update : CreditCard Controller ");
         next();
     }
 
-    delete(req: Request, resp: Response, next: NextFunction): void {
+    delete = (req: Request, resp: Response, next: NextFunction): void => {
         this.logger.debug("delete : CreditCard Controller ");
         next();
     }

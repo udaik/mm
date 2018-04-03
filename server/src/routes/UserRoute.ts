@@ -14,20 +14,19 @@ export class UserRoute extends RouterAbstract {
         this.router = router;
     }
 
-    create(req: Request, resp: Response, next: NextFunction): void {
-        console.log("user create");
+    create = (req: Request, resp: Response, next: NextFunction): void => {
         next();
     }
 
-    retrieve(req: Request, resp: Response, next: NextFunction): void {
+    retrieve = (req: Request, resp: Response, next: NextFunction): void => {
         next();
     }
 
-    update(req: Request, resp: Response, next: NextFunction): void {
+    update = (req: Request, resp: Response, next: NextFunction): void => {
         next();
     }
 
-    delete(req: Request, resp: Response, next: NextFunction): void {
+    delete = (req: Request, resp: Response, next: NextFunction): void => {
         next();
     }
 

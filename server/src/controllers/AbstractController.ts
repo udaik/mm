@@ -1,5 +1,5 @@
-import { NextFunction, Request, Response } from "express";
 import { Logger } from 'log4js';
+import { ControllerHandler } from "./ControllerHandler";
 
 export abstract class AbstractController {
     logging: Logger;
@@ -8,11 +8,11 @@ export abstract class AbstractController {
         this.logging = logging;
     }
 
-    abstract create(req: Request, resp: Response, next: NextFunction): void;
+    create: ControllerHandler;
 
-    abstract retrieve(req: Request, resp: Response, next: NextFunction): void;
+    retrieve: ControllerHandler;
 
-    abstract update(req: Request, resp: Response, next: NextFunction): void;
+    update: ControllerHandler;
 
-    abstract delete(req: Request, resp: Response, next: NextFunction): void;
+    delete: ControllerHandler;
 }

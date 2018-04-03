@@ -1,3 +1,12 @@
 export const enum ObjectRoute {
-    "bank", "creditCard", "equity", "expense", "od", "user", "wallet", "mf"
+    UNHANDLED,
+    BANK, 
+    CREDIT_CARD,
+    EQUITY,
+    EXPENSE,
+    OD,
+    USER,
+    WALLET,
+    MUTUAL_FUND,
+    TRANSACTION
 };

@@ -1,15 +1,15 @@
-import { Request, Response, NextFunction } from "express";
+import { routeHandler } from "./RouteHandler";
 
 export abstract class RouterAbstract {
 
     constructor() {
     }
 
-    abstract create(req: Request, resp: Response, next: NextFunction): void;
+    create?: routeHandler;
 
-    abstract retrieve(req: Request, resp: Response, next: NextFunction): void;
+    retrieve: routeHandler;
 
-    abstract update(req: Request, resp: Response, next: NextFunction): void;
+    update?: routeHandler;
 
-    abstract delete(req: Request, resp: Response, next: NextFunction): void;
+    delete?: routeHandler;
 };

@@ -12,22 +12,22 @@ export class WalletController extends AbstractController {
         this.logger.debug("Wallet Account Controller Instantiated");
     }
 
-    create(req: Request, resp: Response, next: NextFunction): void {
+    create = (req: Request, resp: Response, next: NextFunction): void => {
         this.logger.debug("create : Wallet Controller ");
         next();
     }
 
-    retrieve(req: Request, resp: Response, next: NextFunction): void {
+    retrieve = (req: Request, resp: Response, next: NextFunction): void => {
         this.logger.debug("retrieve : Wallet Controller ");
         next();
     }
 
-    update(req: Request, resp: Response, next: NextFunction): void {
+    update = (req: Request, resp: Response, next: NextFunction): void => {
         this.logger.debug("update : Wallet Controller ");
         next();
     }
 
-    delete(req: Request, resp: Response, next: NextFunction): void {
+    delete = (req: Request, resp: Response, next: NextFunction): void => {
         this.logger.debug("delete : Wallet Controller ");
         next();
     }
