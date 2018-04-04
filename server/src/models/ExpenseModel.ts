@@ -1,8 +1,13 @@
-import { Document, Model, model } from "mongoose";
-import { ExpenseSchema } from './schemas/ExpenseSchema';
+import { Document, Model } from "mongoose";
+import { CreditCardSchema } from "./schemas/CreditCardSchema";
 import { ExpenseInterface } from './interfaces/ExpenseInterface';
+import { Account } from "./AccountModel";
+import { AccountInterface } from "./interfaces/AccountInterface";
 
-export interface ExpenseModelInterface extends ExpenseInterface, Document {
+
+export interface ExpenseModelInterface extends AccountInterface, ExpenseInterface, Document {
+
 }
 
-export const Expense: Model<ExpenseModelInterface> = model<ExpenseModelInterface>("Expense", ExpenseSchema);
+export const Expense: Model<ExpenseModelInterface> = Account.discriminator("Expense", CreditCardSchema);
+

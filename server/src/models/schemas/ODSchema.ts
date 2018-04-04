@@ -2,12 +2,21 @@ import { Schema } from "mongoose";
 import { options } from "./AccountOptions";
 
 export const ODSchema: Schema = new Schema({
-    userInfo: {
-        userId: { type: Schema.Types.ObjectId },
-    },
 
-    bookBalance: { type: Number, default: 0.0 },
-    availableBalance: { type: Number, default: 0.0 },
-    drawingPower: { type: Number, default: 0.0 }
+    accountHolderName: { type: String, default: 0, required: true },
+
+    description: { type: String, default: 0, required: true },
+
+    bankAccountNumber: { type: String, default: 0, required: true },
+
+    rateOfInterest: { type: Number, default: 0, required: false },
+
+    averageMonthlyBalance: { type: Number, default: 0, required: false },
+
+    bookBalance: { type: Number, default: 0, required: false },
+
+    availableBalance: { type: Number, default: 0, required: false },
+
+    drawingPower: { type: Number, default: 0, required: false },
 
 }, options);

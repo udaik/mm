@@ -1,6 +1,11 @@
-// import { AccountType } from "../schemas/AccountType"
+export interface BankInterface {
+    bankAccountId: string;
 
-export interface BankInterface{
-    bankAccountId : string;
-    averageMonthlyBalance : number;
+    averageMonthlyBalance: number;
+
+    accountHolderName: string;
+
+    description: string,
+
+    rateOfInterest: number;
 }

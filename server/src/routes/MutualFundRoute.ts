@@ -29,4 +29,8 @@ export class MutualFundRoute extends RouterAbstract {
     delete = (req: Request, resp: Response, next: NextFunction): void => {
         this.mutualFundController.delete(req, resp, next);
     }
+
+    retrieveById = (req: Request, resp: Response, next: NextFunction): void  => {
+        next();
+    }
 }

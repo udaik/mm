@@ -22,6 +22,10 @@ export class AuthRoute extends RouterAbstract {
         next();
     }
 
+    retrieveById = (req: Request, resp: Response, next: NextFunction): void  => {
+        next();
+    }
+
     update = (req: Request, resp: Response, next: NextFunction): void => {
         next();
     }

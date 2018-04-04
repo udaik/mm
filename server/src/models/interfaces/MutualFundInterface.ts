@@ -1,10 +1,4 @@
 export interface MutualFundInterface {
-    userInfo: {
-        userId: string,
-    },
-
-    name: string;
-    balance: number;
-    isActive: boolean;
-    
+    bankAccountId: string;
+    averageMonthlyBalance: number;
 }

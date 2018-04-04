@@ -4,6 +4,7 @@ import { Account } from "../AccountModel";
 import { User } from "../UserModel";
 
 export const TransactionSchema: Schema = new Schema({
+    
     userId: { type: Schema.Types.ObjectId, ref: User, required: true },
 
     description: { type: String, default: "No Description", required: true },

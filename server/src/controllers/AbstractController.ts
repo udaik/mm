@@ -12,6 +12,8 @@ export abstract class AbstractController {
 
     retrieve: ControllerHandler;
 
+    retrieveById : ControllerHandler;
+
     update: ControllerHandler;
 
     delete: ControllerHandler;

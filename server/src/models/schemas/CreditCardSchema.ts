@@ -2,12 +2,11 @@ import { Schema } from "mongoose";
 import { options } from "./AccountOptions";
 
 export const CreditCardSchema: Schema = new Schema({
-    userInfo: {
-        userId: { type: Schema.Types.ObjectId },
-    },
 
-    name: { type: String, required: true, unique: true },
+    mmCreditCardName: { type: String, required: true },
 
-    balance: { type: Number, required: true }
+    lastBilledDate: { type: Date, required: true },
+
+    nextBilledDate: { type: Date, required: true },
 
 }, options);

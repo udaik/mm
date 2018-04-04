@@ -29,4 +29,8 @@ export class ExpenseRoute extends RouterAbstract {
     delete = (req: Request, resp: Response, next: NextFunction): void => {
         this.expenseController.delete(req, resp, next);
     }
+
+    retrieveById = (req: Request, resp: Response, next: NextFunction): void  => {
+        next();
+    }
 }

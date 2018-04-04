@@ -29,4 +29,8 @@ export class ODRoute extends RouterAbstract {
     delete = (req: Request, resp: Response, next: NextFunction): void => {
         this.odController.delete(req, resp, next);
     }
+
+    retrieveById = (req: Request, resp: Response, next: NextFunction): void  => {
+        next();
+    }
 }

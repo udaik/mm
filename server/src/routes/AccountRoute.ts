@@ -53,7 +53,7 @@ export class AccountRoute {
             }
 
             case "CREDIT_CARD": {
-                objRoute = ObjectRoute.BANK;
+                objRoute = ObjectRoute.CREDIT_CARD;
                 break;
             }
 
@@ -107,79 +107,83 @@ export class AccountRoute {
             route.create(req, resp, next);
         }).catch((err) => {
             resp.status(HttpStatus.BAD_REQUEST).send(err);
-        })
+        });
     }
 
     retrieve = (req: Request, resp: Response, next: NextFunction): void => {
-        console.log('retrieve');
-        const promise = new Promise((resolve, reject) => {
-            const route = this.routes.getValue(req.body.type);
-            if (route)
-                resolve(route);
-            else
+        new Promise((resolve, reject) => {
+            const route = this.routes.getValue(this.routeToEnum(req.params.type));
+            if (route === undefined)
                 reject(route);
-        });
-
-        promise.then((route: RouterAbstract) => {
+            else
+                resolve(route);
+        }).then((route: RouterAbstract) => {
             route.retrieve(req, resp, next);
+        }).catch((err) => {
+            resp.status(HttpStatus.BAD_REQUEST).send(err);
         });
+    }
 
-        promise.catch((err) => {
+    retrieveById = (req: Request, resp: Response, next: NextFunction): void => {
+        new Promise((resolve, reject) => {
+            const route = this.routes.getValue(this.routeToEnum(req.params.type));
+            if (route === undefined)
+                reject(route);
+            else
+                resolve(route);
+        }).then((route: RouterAbstract) => {
+            route.retrieveById(req, resp, next);
+        }).catch((err) => {
             resp.status(HttpStatus.BAD_REQUEST).send(err);
         });
     }
 
     update = (req: Request, resp: Response, next: NextFunction): void => {
-        const promise = new Promise((resolve, reject) => {
-            const route = this.routes.getValue(req.body.type);
-            if (route)
-                resolve(route);
-            else
+        new Promise((resolve, reject) => {
+            const route = this.routes.getValue(this.routeToEnum(req.params.type));
+            if (route === undefined)
                 reject(route);
-        });
-
-        promise.then((route: RouterAbstract) => {
+            else
+                resolve(route);
+        }).then((route: RouterAbstract) => {
             route.update(req, resp, next);
-        });
-
-        promise.catch((err) => {
+        }).catch((err) => {
             resp.status(HttpStatus.BAD_REQUEST).send(err);
         });
     }
 
     delete = (req: Request, resp: Response, next: NextFunction): void => {
-        console.log('delete');
-
-        const promise = new Promise((resolve, reject) => {
-            const route = this.routes.getValue(req.body.type);
-            if (route)
-                resolve(route);
-            else
+        new Promise((resolve, reject) => {
+            const route = this.routes.getValue(this.routeToEnum(req.params.type));
+            if (route === undefined)
                 reject(route);
-        });
-
-        promise.then((route: RouterAbstract) => {
+            else
+                resolve(route);
+        }).then((route: RouterAbstract) => {
             route.delete(req, resp, next);
-        });
-
-        promise.catch((err) => {
+        }).catch((err) => {
             resp.status(HttpStatus.BAD_REQUEST).send(err);
         });
     }
 
-    mount = (mount_path: string): void => {
-        this.logging.debug("AccountRoute ", mount_path);
+    mount = (mountPath: string): void => {
+        const byId = mountPath + '/:instanceId';
 
-        this.router.put(mount_path, this.create);
-        this.logging.debug("route create : put ", mount_path);
+        this.logging.debug("express mount ", mountPath);
 
-        this.router.get(mount_path, this.retrieve);
-        this.logging.debug("route retrieve : get ", mount_path);
+        this.router.put(mountPath, this.create);
+        this.logging.debug("route create : put ", mountPath);
 
-        this.router.post(mount_path, this.update);
-        this.logging.debug("route update : post ", mount_path);
+        this.router.get(mountPath, this.retrieve);
+        this.logging.debug("route retrieve : get ", mountPath);
 
-        this.router.delete(mount_path, this.delete);
-        this.logging.debug("route delete : delete ", mount_path);
+        this.router.get(byId, this.retrieveById);
+        this.logging.debug("route retrieveById : get ", byId);
+
+        this.router.post(byId, this.update);
+        this.logging.debug("route update : post ", byId);
+
+        this.router.delete(byId, this.delete);
+        this.logging.debug("route delete : delete ", byId);
     }
 }

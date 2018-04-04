@@ -21,6 +21,9 @@ export class CreditCardRoute extends RouterAbstract {
     retrieve = (req: Request, resp: Response, next: NextFunction): void => {
         this.creditCardController.retrieve(req, resp, next);
     }
+    retrieveById = (req: Request, resp: Response, next: NextFunction): void  => {
+        next();
+    }
 
     update = (req: Request, resp: Response, next: NextFunction): void => {
         this.creditCardController.update(req, resp, next);

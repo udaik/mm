@@ -29,4 +29,8 @@ export class WalletRoute extends RouterAbstract {
     delete = (req: Request, resp: Response, next: NextFunction): void => {
         this.walletController.delete(req, resp, next);
     }
+
+    retrieveById = (req: Request, resp: Response, next: NextFunction): void  => {
+        next();
+    }
 }

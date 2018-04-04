@@ -9,6 +9,8 @@ export abstract class RouterAbstract {
 
     retrieve: routeHandler;
 
+    retrieveById : routeHandler;
+
     update?: routeHandler;
 
     delete?: routeHandler;

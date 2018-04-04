@@ -15,31 +15,31 @@ export class AuthController extends AbstractController {
     }
 
     create = (req: Request, resp: Response, next: NextFunction): void => {
-        next();
+        resp.status(HttpStatus.OK).send({ OK: "create implemented" });
     }
 
     retrieve = (req: Request, resp: Response, next: NextFunction): void => {
-        next();
+        resp.status(HttpStatus.OK).send({ OK: "retrieve implemented" });
     }
 
     findOne(req: Request, resp: Response, next: NextFunction): void {
-        next();
+        resp.status(HttpStatus.OK).send({ OK: "findOne implemented" });
     }
 
     update = (req: Request, resp: Response, next: NextFunction): void => {
-        next();
+        resp.status(HttpStatus.OK).send({ OK: "update implemented" });
     }
 
     delete = (req: Request, resp: Response, next: NextFunction): void => {
-        next();
+        resp.status(HttpStatus.OK).send({ OK: "delete implemented" });
     }
 
     loginGet(req: Request, resp: Response, next: NextFunction): void {
-        next();
+        resp.status(HttpStatus.OK).send({ OK: "loginGet implemented" });
     }
 
     registerGet(req: Request, resp: Response, next: NextFunction): void {
-        next();
+        resp.status(HttpStatus.OK).send({ OK: "registerGet implemented" });
     }
 
     registerPost(req: Request, resp: Response, next: NextFunction): void {
@@ -48,10 +48,9 @@ export class AuthController extends AbstractController {
         req.checkBody('password', 'Password is required').notEmpty();
         req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
         var errors = req.validationErrors();
-
+        
         if (errors) {
-            resp.statusCode = 400
-            resp.send(errors);
+            resp.status(HttpStatus.BAD_REQUEST).send(errors);
         } else {
             let email: string = req.body.mmUserName;
             let username: string = req.body.mmUserName;
@@ -61,7 +60,6 @@ export class AuthController extends AbstractController {
                 return bcrypt.hash(password, salt)
             }).then((hash) => {
                 let user: UserModelInterface = new User({ mmUserName: username, password: hash, email: email });
-
                 return user.save();
             }).then((args) => {
                 resp.status(HttpStatus.OK).send(args);
@@ -75,10 +73,10 @@ export class AuthController extends AbstractController {
     }
 
     loginPost(req: Request, resp: Response, next: NextFunction): void {
-        next();
+        resp.status(HttpStatus.OK).send({ OK: "loginPost implemented" });
     }
 
     loginOut(req: Request, resp: Response, next: NextFunction): void {
-        next()
+        resp.status(HttpStatus.OK).send({ OK: "loginPost implemented" });
     }
 }

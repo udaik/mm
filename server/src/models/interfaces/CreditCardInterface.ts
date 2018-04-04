@@ -1,9 +1,8 @@
 export interface CreditCardInterface {
-    userInfo: {
-        userId: string,
-    },
+    
+    mmCreditCardName: string,
 
-    name: string;
-    balance: number;
-    isActive: boolean;
+    lastBilledDate: string,
+
+    nextBilledDate: string,
 }

@@ -13,7 +13,6 @@ export class UserController extends AbstractController {
     };  
 
     create = (req: Request, resp: Response, next: NextFunction): void => {
-        console.log("create");
         /* user needs be created from registration */
         next();
     };
@@ -43,7 +42,6 @@ export class UserController extends AbstractController {
     };
 
     findOneByName(req: Request, resp: Response, next: NextFunction): void {
-        console.log(req.params)
         var query = { userName: req.params.name }
         User.find(query).then((user) => {
             resp.statusCode = 200
@@ -54,14 +52,11 @@ export class UserController extends AbstractController {
         });
     };
 
-
     update = (req: Request, resp: Response, next: NextFunction): void => {
-        console.log('update')
         next();
     };
 
     delete = (req: Request, resp: Response, next: NextFunction): void => {
-        console.log("delete")
         next();
     };
 }

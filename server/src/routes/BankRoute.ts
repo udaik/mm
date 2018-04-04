@@ -18,18 +18,19 @@ export class BankRoute extends RouterAbstract {
         this.bankController.create(req, resp, next);
     }
 
-    retrieve = (req: Request, resp: Response, next: NextFunction): void  =>{
-        console.log("retrieve called");
+    retrieve = (req: Request, resp: Response, next: NextFunction): void => {
         this.bankController.retrieve(req, resp, next);
     }
 
+    retrieveById = (req: Request, resp: Response, next: NextFunction): void => {
+        this.bankController.retrieveById(req, resp, next);
+    }
+
     update = (req: Request, resp: Response, next: NextFunction): void => {
-        console.log("update called");
         this.bankController.update(req, resp, next);
     }
 
     delete = (req: Request, resp: Response, next: NextFunction): void => {
-        console.log("delete called");
         this.bankController.delete(req, resp, next);
     }
 }

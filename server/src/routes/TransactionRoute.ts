@@ -18,18 +18,19 @@ export class TransactionRoute extends RouterAbstract {
         this.transactionController.create(req, resp, next);
     }
 
-    retrieve = (req: Request, resp: Response, next: NextFunction): void  =>{
-        console.log("retrieve called");
+    retrieve = (req: Request, resp: Response, next: NextFunction): void => {
         this.transactionController.retrieve(req, resp, next);
     }
 
     update = (req: Request, resp: Response, next: NextFunction): void => {
-        console.log("update called");
         this.transactionController.update(req, resp, next);
     }
 
     delete = (req: Request, resp: Response, next: NextFunction): void => {
-        console.log("delete called");
         this.transactionController.delete(req, resp, next);
+    }
+
+    retrieveById = (req: Request, resp: Response, next: NextFunction): void => {
+        next();
     }
 }

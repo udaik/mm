@@ -2,6 +2,7 @@ import { AbstractController } from "./AbstractController";
 import { NextFunction, Request, Response } from "express";
 import { Logger } from "log4js";
 import * as HttpStatus from 'http-status-codes'
+
 import { Bank } from "../models/BankModel";
 import { User } from "../models/UserModel";
 
@@ -16,10 +17,10 @@ export class BankController extends AbstractController {
 
     create = (req: Request, resp: Response, next: NextFunction): void => {
         User.findOne({ _id: req.body.userId }).then((user) => {
-            let b = new Bank(req.body);
-            return b.save();
+            return Bank.create(req.body);
         }).then((bank) => {
-            User.findByIdAndUpdate(bank.userId, { linkedAccounts: [bank._id] }).then((user) => {
+            User.findById(bank.userId).then((user) => {
+                user.linkedAccountsAdd(bank._id);
                 return user.save();
             }).then((user) => {
                 resp.status(HttpStatus.OK).send(bank);
@@ -30,20 +31,38 @@ export class BankController extends AbstractController {
     }
 
     retrieve = (req: Request, resp: Response, next: NextFunction): void => {
-        this.logger.debug("Bank Controller retrieve");
-        resp.statusCode = 200;
-        resp.send({ OK: "retrieve" });
+        Bank.find({ userId: req.params.userId }).then((banks) => {
+            resp.status(HttpStatus.OK).send(banks);
+        }).catch((err) => {
+            resp.status(HttpStatus.METHOD_FAILURE).send(err);
+        });
+    }
+
+    retrieveById = (req: Request, resp: Response, next: NextFunction): void => {
+        Bank.findById({ _id: req.params.instanceId }).then((bank) => {
+            resp.status(HttpStatus.OK).send(bank);
+        }).catch((err) => {
+            resp.status(HttpStatus.METHOD_FAILURE).send(err);
+        });
     }
 
     update = (req: Request, resp: Response, next: NextFunction): void => {
-        this.logger.debug("Bank Controller uodate");
-        resp.statusCode = 200;
-        resp.send({ OK: "update" });
+        Bank.findByIdAndUpdate(req.params.instanceId, req.body, { new: true }).then((bank) => {
+            bank.save().then((bank) => {
+                resp.status(HttpStatus.OK).send(bank);
+            }).catch((err) => {
+                resp.status(HttpStatus.METHOD_FAILURE).send(err);
+            });
+        }).catch((err) => {
+            resp.status(HttpStatus.METHOD_FAILURE).send(err);
+        });
     }
 
     delete = (req: Request, resp: Response, next: NextFunction): void => {
-        this.logger.debug("Bank Controller delete");
-        resp.statusCode = 200;
-        resp.send({ OK: "delete" });
+        Bank.deleteOne({ _id: req.params.instanceId }).then((status) => {
+            resp.status(HttpStatus.OK).send(status);
+        }).catch((err) => {
+            resp.status(HttpStatus.METHOD_FAILURE).send(err);
+        });
     }
 }

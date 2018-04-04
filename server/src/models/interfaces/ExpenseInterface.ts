@@ -1,9 +1,4 @@
 export interface ExpenseInterface {
-    userInfo: {
-        userId: string,
-    },
-
-    name: string;
-    totalSpent: number;
-    isActive: boolean;
+    bankAccountId: string;
+    averageMonthlyBalance: number;
 }

@@ -23,7 +23,7 @@ export class APIRoute {
         this.logging.debug("user route:", user_api)
         user.mount(user_api);
 
-        let accountRestAPIPath: string = API_VERSION + '/user/:id/account/:type';
+        let accountRestAPIPath: string = API_VERSION + '/user/:userId/account/:type';
         let accountRestAPIPathObj: AccountRoute = new AccountRoute(this.logging, this.router);
         this.logging.debug("accounts route:", accountRestAPIPath)
         accountRestAPIPathObj.mount(accountRestAPIPath);
