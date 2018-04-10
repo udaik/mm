@@ -1,0 +1,48 @@
+.example-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .menu_item {
+    padding-top: -10px;
+    padding-right: 24px;
+    padding-bottom: -10px;
+    padding-left: 24px;
+    font-size: 10pt;
+  }
+
+  .menu_section{
+    font-size: 11pt;
+    margin-top: 15px;
+  }
+
+  .nav_list {
+      margin-top: -2px;
+      padding-top: 5px;
+  }
+
+  .example-is-mobile .example-toolbar {
+    position: fixed;
+    /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+    z-index: 2;
+  }
+
+  .example-sidenav-container {
+    /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+       causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+    flex: 1;
+  }
+
+  .example-fill-remaining-space {
+    /* This fills the remaining space, by using flexbox. 
+       Every toolbar row uses a flexbox row layout. */
+    flex: 1 1 auto;
+  }
+
+
+.material-icons.md-18 { font-size: 18px; }

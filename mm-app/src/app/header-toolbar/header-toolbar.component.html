@@ -1,0 +1,99 @@
+<div class="example-container">
+
+    <mat-toolbar color="primary" style="max-height:56px">
+        <button mat-button (click)="snav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+
+        <button mat-button>
+        </button>
+
+        <button mat-button>
+        </button>
+
+        <button mat-button>
+        </button>
+
+        <button mat-button>
+        </button>
+
+        <button mat-button>
+            <h3>10000</h3>
+        </button>
+
+
+        <!-- This fills the remaining space of the current row -->
+        <span class="example-fill-remaining-space"></span>
+        <button mat-button>
+            <mat-icon>home</mat-icon>
+        </button>
+
+        <button mat-button>
+            <mat-icon>refresh</mat-icon>
+        </button>
+
+        <button mat-button>
+            <mat-icon>pie_chart</mat-icon>
+        </button>
+
+        <button mat-button>
+            <mat-icon>favorite</mat-icon>
+        </button>
+        <button mat-button>
+            <mat-icon>copyright</mat-icon>
+        </button>
+        <button mat-button>
+            <mat-icon>account_circle</mat-icon>
+        </button>
+
+    </mat-toolbar>
+
+    <mat-sidenav-container class="example-sidenav-container">
+
+        <mat-sidenav #snav mode='push'>
+            <a *ngFor="let section of userPortfolio.portfolio">
+                <mat-divider></mat-divider>
+                <section class="menu_section">
+                    <div fxLayout="row" fxLayoutGap="10%" fxLayoutAlign="left left">
+                        <div>
+                            <mat-icon *ngIf="section.type == 'Banks'" matListIcon color="primary">account_balance</mat-icon>
+                            <mat-icon *ngIf="section.type === 'Credit Cards'" matListIcon color="primary">credit_card</mat-icon>
+                            <mat-icon *ngIf="section.type === 'Insurances'" matListIcon color="primary"> beach_access</mat-icon>
+                        </div>
+                        <div color="primary"> {{section.type}} </div>
+                    </div>
+                </section>
+                <mat-nav-list *ngFor="let account of section.accounts" class="nav_list">
+                    <a mat-list-item class="menu_item">
+                        <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
+                            <div>
+                                <img *ngIf="account.institution == 'SBI'" src="/assets/images/SBI-logo.svg" height=20 width=20 alt="Logo">
+                                <img *ngIf="account.institution == 'HDFC'" src="/assets/images/hdfc.jpg" height=20 width=20 alt="Logo">
+                                <img *ngIf="account.institution == 'ICICI'" src="/assets/images/icici.png" height=20 width=20 alt="Logo">
+                                <img *ngIf="account.institution == 'Bajaj_Allianz'" src="/assets/images/Bajaj_Allianz.png" height=20 width=20 alt="Logo">
+
+                            </div>
+                            <div>
+                                {{ account.name | uppercase }}
+                            </div>
+                        </div>
+                    </a>
+                </mat-nav-list>
+            </a>
+        </mat-sidenav>
+        <mat-sidenav-content>
+
+            <mat-tab-group>
+                <mat-tab label="Transactions">
+                    <h1>Some tab content</h1>
+                    <p>...</p>
+                </mat-tab>
+                <mat-tab label="Overview">
+                    <h1>Some more tab content</h1>
+                    <p>...</p>
+                </mat-tab>
+            </mat-tab-group>
+
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>
