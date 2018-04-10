@@ -13,3 +13,28 @@ export var AccountSchema: Schema = new Schema({
         credits: { type: Number, default: 0, required: true },
     },
 }, options);
+
+AccountSchema.methods.deposit = function (amt: number): Promise<number> {
+    this.balance = this.balance + amt;
+    this.transactions.credits = this.transactions.credits + 1;
+    var p = new Promise<number>((resolve) => {
+        resolve(this.balance);
+    });
+    return p;
+}
+
+AccountSchema.methods.withdraw = function (amt: number): Promise<number> {
+    this.balance = this.balance - amt;
+    this.transactions.debits = this.transactions.debits + 1;
+    var p = new Promise<number>((resolve) => {
+        resolve(this.balance);
+    });
+    return p;
+}
+
+AccountSchema.methods.balanceGet = function (): Promise<number> {
+    var p = new Promise<number>((resolve) => {
+        resolve(this.balance);
+    });
+    return p;
+}

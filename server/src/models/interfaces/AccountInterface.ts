@@ -7,4 +7,8 @@ export interface AccountInterface {
         debits: number;
         credits: number;
     };
+
+    deposit(amt: number): Promise<number>;
+    withdraw(amt: number): Promise<number>;
+    balanceGet(): Promise<number>;
 }

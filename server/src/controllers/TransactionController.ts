@@ -3,8 +3,11 @@ import { NextFunction, Request, Response } from "express";
 import { Logger } from "log4js";
 import * as HttpStatus from 'http-status-codes'
 
-import { Transaction } from "../models/TransactionModel";
+// import { Transaction } from "../models/TransactionModel";
 import { User } from "../models/UserModel";
+import { Account } from "../models/AccountModel";
+import { Transaction } from "../models/TransactionModel";
+import { TransactionInterface } from "../models/interfaces/TransactionInterface";
 
 export class TransactionController extends AbstractController {
     private logger: Logger;
@@ -16,18 +19,26 @@ export class TransactionController extends AbstractController {
     }
 
     create = (req: Request, resp: Response, next: NextFunction): void => {
-        User.findOne({ _id: req.body.userId }).then((user) => {
-            let b = new Transaction(req.body);
-            return b.save();
-        }).then((transaction) => {
-            return User.findByIdAndUpdate(transaction.userId, { linkedAccounts: [transaction._id] }).then((user) => {
-                return user.save();
-            }).then((user) => {
+        Promise.all([User.findOne({ _id: req.body.userId }),
+        Account.findOne({ _id: req.body.creditAccount }),
+        Account.findOne({ _id: req.body.debitAccount })])
+            .then(([user, creditAccount, debitAccount]) => {
+                // TODO check all the userids should be the same 
+                return Promise.all([creditAccount.deposit(req.body.amount),
+                debitAccount.withdraw(req.body.amount)]).then(() => {
+                    return Promise.all([creditAccount.save(), debitAccount.save()])
+                });
+            }).then(([creditAccount, debitAccount]) => {
+                var transaction: TransactionInterface = req.body;
+                transaction.creditBalance = creditAccount.balance;
+                transaction.debitBalance = debitAccount.balance;
+                this.logger.info("Creating transaction.", JSON.stringify(transaction));
+                return Transaction.create(transaction);
+            }).then((transaction) => {
                 resp.status(HttpStatus.OK).send(transaction);
-            })
-        }).catch((err) => {
-            resp.status(HttpStatus.METHOD_FAILURE).send(err);
-        });
+            }).catch((error) => {
+                resp.status(HttpStatus.METHOD_FAILURE).send(error);
+            });
     }
 
     retrieve = (req: Request, resp: Response, next: NextFunction): void => {

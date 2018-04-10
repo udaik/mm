@@ -20,3 +20,28 @@ export const ODSchema: Schema = new Schema({
     drawingPower: { type: Number, default: 0, required: false },
 
 }, options);
+
+ODSchema.methods.deposit = function (amt: number): Promise<number> {
+    this.balance = this.balance + amt;
+    this.availableBalance = this.availableBalance + amt;
+    this.transactions.credits = this.transactions.credits + 1;
+    return new Promise<number>((resolve) => {
+        resolve(this.balance);
+    });
+}
+
+ODSchema.methods.withdraw = function (amt: number): Promise<number> {
+    this.balance = this.balance - amt;
+    this.availableBalance = this.availableBalance - amt;
+    this.transactions.debits = this.transactions.debits + 1;
+    return new Promise<number>((resolve) => {
+        resolve(this.balance);
+    });
+}
+
+ODSchema.methods.balanceGet = function (): Promise<number> {
+    return new Promise<number>((resolve) => {
+        resolve(this.balance);
+    });
+}
+
