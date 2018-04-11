@@ -1,0 +1,42 @@
+<div class="bounds">
+    <div class="content" fxLayout="row" fxLayout.xs="column" fxFlexFill>
+        <div fxFlex="37" class="sec1" fxFlex.xs="37">
+        </div>
+        <div fxFlex="26" class="sec2">
+            <div fxLayout="column">
+
+                <div fxFlex="37" fxFlexAlign="center">
+                    <i class="material-icons">account_box</i>
+                    <mat-card class="sec2">
+                        <h1>Login</h1>
+                    </mat-card>
+
+                    <mat-divider></mat-divider>
+
+                    <form (ngSubmit)="onLogin()" novalidate>
+
+                        <div class="form-group">
+                            <mat-form-field>
+                                <input matInput placeholder="Input">
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <input matInput placeholder="Input" class="form-control" [(ngModel)]="user.email" name="email" required>
+                            </mat-form-field>
+
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control" id="email" placeholder="enter email" [(ngModel)]="user.email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="enter password" [(ngModel)]="user.password" name="password"
+                                required>
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

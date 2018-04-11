@@ -1,42 +1,82 @@
-<html>
-  <head>
-    <!-- Material Design Lite -->
-    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-    <!-- Material Design icon font -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  </head>
-  <body>
-    <!-- Uses a header that scrolls with the text, rather than staying
-      locked at the top -->
-    <div class="mdl-layout mdl-js-layout">
-      <header class="mdl-layout__header mdl-layout__header--scroll">
-        <div class="mdl-layout__header-row">
-          <!-- Title -->
-          <span class="mdl-layout-title">Title</span>
-          <!-- Add spacer, to align navigation to the right -->
-          <div class="mdl-layout-spacer"></div>
-          <!-- Navigation -->
-          <nav class="mdl-navigation">
-            <a class="mdl-navigation__link" href="">Link</a>
-            <a class="mdl-navigation__link" href="">Link</a>
-            <a class="mdl-navigation__link" href="">Link</a>
-            <a class="mdl-navigation__link" href="">Link</a>
-          </nav>
-        </div>
-      </header>
-      <div class="mdl-layout__drawer">
-        <span class="mdl-layout-title">Title</span>
-        <nav class="mdl-navigation">
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>
-        </nav>
-      </div>
-      <main class="mdl-layout__content">
-        <div class="page-content"><!-- Your content goes here --></div>
-      </main>
-    </div>
-  </body>
-</html>
+<div class="example-container">
+
+    <mat-toolbar color="primary" style="max-height:56px">
+        <button mat-button (click)="snav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+
+        <!-- This fills the remaining space of the current row -->
+        <span class="example-fill-remaining-space"></span>
+        <button mat-button>
+            <mat-icon>home</mat-icon>
+        </button>
+
+        <button mat-button matTooltip="Add Account">
+            <mat-icon>add box</mat-icon>
+        </button>
+
+        <button mat-button matTooltip="Add Transaction" color="accent">
+            <mat-icon>add circle outline</mat-icon>
+        </button>
+
+        <button mat-button>
+            <mat-icon>favorite</mat-icon>
+        </button>
+        <button mat-button>
+            <mat-icon>copyright</mat-icon>
+        </button>
+        <button mat-button>
+            <mat-icon>account_circle</mat-icon>
+        </button>
+
+    </mat-toolbar>
+
+    <mat-sidenav-container class="example-sidenav-container">
+
+        <mat-sidenav #snav mode='push'>
+            <a *ngFor="let section of userPortfolio.portfolio">
+                <mat-divider></mat-divider>
+                <section class="menu_section">
+                    <div fxLayout="row" fxLayoutGap="10%" fxLayoutAlign="left left">
+                        <div>
+                            <mat-icon *ngIf="section.type == 'Banks'" matListIcon color="primary">account_balance</mat-icon>
+                            <mat-icon *ngIf="section.type === 'Credit Cards'" matListIcon color="primary">credit_card</mat-icon>
+                            <mat-icon *ngIf="section.type === 'Insurances'" matListIcon color="primary"> beach_access</mat-icon>
+                        </div>
+                        <div color="primary"> {{section.type}} </div>
+                    </div>
+                </section>
+                <mat-nav-list *ngFor="let account of section.accounts" class="nav_list">
+                    <a mat-list-item class="menu_item">
+                        <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
+                            <div>
+                                <img *ngIf="account.institution == 'SBI'" src="/assets/images/SBI-logo.svg" height=20 width=20 alt="Logo">
+                                <img *ngIf="account.institution == 'HDFC'" src="/assets/images/hdfc.jpg" height=20 width=20 alt="Logo">
+                                <img *ngIf="account.institution == 'ICICI'" src="/assets/images/icici.png" height=20 width=20 alt="Logo">
+                                <img *ngIf="account.institution == 'Bajaj_Allianz'" src="/assets/images/Bajaj_Allianz.png" height=20 width=20 alt="Logo">
+
+                            </div>
+                            <div>
+                                {{ account.name | uppercase }}
+                            </div>
+                        </div>
+                    </a>
+                </mat-nav-list>
+            </a>
+        </mat-sidenav>
+        <mat-sidenav-content>
+
+            <mat-tab-group>
+                <mat-tab label="Transactions">
+                    <h1>Some tab content</h1>
+                    <p>...</p>
+                </mat-tab>
+                <mat-tab label="Overview">
+                    <h1>Some more tab content</h1>
+                    <p>...</p>
+                </mat-tab>
+            </mat-tab-group>
+
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

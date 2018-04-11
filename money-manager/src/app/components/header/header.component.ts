@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
     selector: 'app-header',
@@ -9,6 +11,25 @@ import { Component, OnInit } from '@angular/core';
 export class HeaderComponent implements OnInit {
 
     user: string;
+
+    userPortfolio = {
+        portfolio: [{
+            type: 'Overview',
+            accounts: [{
+                name: 'Overview',
+            },
+            {
+                name: 'Assets',
+            },
+            {
+                name: 'Liabilities'
+            },
+            {
+                name: 'Expenses'
+            }]
+        }]
+    };
+
 
     constructor() {
         this.user = 'Eggs';
