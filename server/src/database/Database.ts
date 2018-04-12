@@ -13,14 +13,7 @@ export class Database extends DBInterface {
 
     pInit(options: ConnectionOptions): Promise<any> {
         this.db = connection;
-        return connect(this.url, options).then(
-            () => {
-                this.logging.debug('Opened the Database Connection')
-            },
-            (err) => {
-                this.logging.fatal("Failed to connect to the database", err);
-            }
-        );
+        return connect(this.url, options);
     }
 
     pClose(): void {

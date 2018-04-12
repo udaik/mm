@@ -1,6 +1,6 @@
-import { Connection } from 'mongoose';
 import { Logger } from 'log4js';
-import { MongoClientOptions } from 'mongodb';
+import { ConnectionOptions } from 'mongoose';
+
 
 export abstract class DBInterface {
     url: string;
@@ -9,7 +9,7 @@ export abstract class DBInterface {
     constructor(url: string, logging: Logger) {
     }
 
-    abstract pInit(options: MongoClientOptions): Promise<Connection>;
+    abstract pInit(options: ConnectionOptions): Promise<any>;
 
     abstract pClose(): void;
 }

@@ -6,12 +6,15 @@ import * as errorHandler from "errorhandler";
 import * as session from 'express-session';
 import * as passport from "passport";
 import * as expressValidator from "express-validator";
+import * as cors from "cors";
 
 import { APIRoute } from "./routes/APIRoute";
 import { Logging } from "./logging/Logging";
 import { Logger, Configuration } from "log4js";
 import { Database } from "./database/Database";
 import { ConnectionOptions } from "mongoose";
+
+const MONGO_URL = "mongodb://127.0.0.1:27017/money-manager";
 
 export class Server {
     private app: express.Application;
@@ -36,7 +39,7 @@ export class Server {
         this.logger = logging.init();
         this.logger.debug("Instantiating the Server");
         this.router = express.Router();
-        this.db = new Database("mongodb://127.0.0.1:27017/money-manager", this.logger);
+        this.db = new Database(MONGO_URL, this.logger);
         this.app = express();
         this.configure().then(
             () => {
@@ -70,19 +73,26 @@ export class Server {
                     extended: true
                 }));
 
-                // Express Session
                 this.app.use(session({
                     secret: 'secret',
                     saveUninitialized: true,
                     resave: true
                 }));
 
+                const options: cors.CorsOptions = {
+                    allowedHeaders: ["Origin", "X-Requested-With", "Content-Type",
+                        "Accept", "X-Access-Token"],
+                    credentials: true,
+                    methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
+                    origin: "http://localhost:4200",
+                    preflightContinue: false
+                };
+                this.router.use(cors(options));
+                this.router.options("*", cors(options));
 
-                // Passport init
                 this.app.use(passport.initialize());
                 this.app.use(passport.session());
 
-                // Express Validator
                 this.app.use(expressValidator({
                     errorFormatter: function (param, msg, value) {
                         var namespace = param.split('.')
@@ -102,7 +112,7 @@ export class Server {
 
                 this.app.use(cookieParser());
                 this.app.use(function (err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
-                    
+
                     err.status = 402;
                     next(err);
                 });
