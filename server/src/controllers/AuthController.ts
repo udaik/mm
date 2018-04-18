@@ -4,6 +4,7 @@ import { Logger } from "log4js";
 import { User, UserModelInterface } from "../models/UserModel";
 import * as bcrypt from "bcrypt";
 import * as HttpStatus from 'http-status-codes'
+import { } from 'passport';
 
 export class AuthController extends AbstractController {
     logger: Logger;
@@ -48,7 +49,7 @@ export class AuthController extends AbstractController {
         req.checkBody('password', 'Password is required').notEmpty();
         req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
         var errors = req.validationErrors();
-        
+
         if (errors) {
             resp.status(HttpStatus.BAD_REQUEST).send(errors);
         } else {
@@ -73,10 +74,18 @@ export class AuthController extends AbstractController {
     }
 
     loginPost(req: Request, resp: Response, next: NextFunction): void {
-        resp.status(HttpStatus.OK).send({ OK: "loginPost implemented" });
+        console.log('loginPost');
+        var u = { auth_token: "abcd", };
+        resp.status(HttpStatus.OK).send(u);
     }
 
     loginOut(req: Request, resp: Response, next: NextFunction): void {
-        resp.status(HttpStatus.OK).send({ OK: "loginPost implemented" });
+        req.logout();
+        resp.redirect('/login');
+    }
+
+    status(req: Request, resp: Response, next: NextFunction): void {
+        var user = { email: 'abc@abc.com', 'status': 'success' };
+        resp.status(HttpStatus.OK).send(user);
     }
 }

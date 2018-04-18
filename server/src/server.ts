@@ -7,6 +7,7 @@ import * as session from 'express-session';
 import * as passport from "passport";
 import * as expressValidator from "express-validator";
 import * as cors from "cors";
+import * as LocalStrategy from "passport-local";
 
 import { APIRoute } from "./routes/APIRoute";
 import { Logging } from "./logging/Logging";
@@ -14,7 +15,23 @@ import { Logger, Configuration } from "log4js";
 import { Database } from "./database/Database";
 import { ConnectionOptions } from "mongoose";
 
+import { User, UserModelInterface } from './models/UserModel';
+
 const MONGO_URL = "mongodb://127.0.0.1:27017/money-manager";
+
+passport.serializeUser(function (user: UserModelInterface, cb) {
+    console.log('user', user);
+    console.log('user id', user.id)
+    cb(null, user);
+});
+
+passport.deserializeUser(function (id, cb) {
+    console.log('id', id);
+    User.findById(id, function (err, user) {
+        if (err) { return cb(err); }
+        cb(null, user);
+    });
+});
 
 export class Server {
     private app: express.Application;
@@ -41,18 +58,12 @@ export class Server {
         this.router = express.Router();
         this.db = new Database(MONGO_URL, this.logger);
         this.app = express();
-        this.configure().then(
-            () => {
-                this.routesAdd();
-                this.api();
-            },
-            () => {
-                this.logger.fatal("failed to configure the app");
-            }
-        );
-    }
-
-    public api() {
+        this.configure().then(() => {
+            this.logger.info("Configured express app.");
+            this.routesAdd();
+        }).catch((err) => {
+            this.logger.fatal("failed to configure the app", err);
+        });
     }
 
     public configure() {
@@ -62,7 +73,6 @@ export class Server {
             reconnectInterval: 500,
             poolSize: 10,
             bufferMaxEntries: 0
-
         };
 
         return this.db.pInit(options).then(
@@ -89,6 +99,19 @@ export class Server {
                 };
                 this.router.use(cors(options));
                 this.router.options("*", cors(options));
+
+                passport.use(new LocalStrategy.Strategy((username: string, password: string, done: Function) => {
+                    console.log(username, password);
+                    User.findOne().then((user: UserModelInterface) => {
+                        return user.verifyPassword(password);
+                    }).then((user: UserModelInterface) => {
+                        console.log('after verifying password', user);
+                        done(null, user._id);
+                    }).catch((error) => {
+                        done(error);
+                        console.log('error', error);
+                    })
+                }));
 
                 this.app.use(passport.initialize());
                 this.app.use(passport.session());

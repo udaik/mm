@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { Logger } from 'log4js';
 import { Request, Response, NextFunction } from "express-serve-static-core";
+import { ensureLoggedIn } from 'connect-ensure-login';
 import { Dictionary } from "typescript-collections";
 import * as HttpStatus from 'http-status-codes';
 
@@ -171,19 +172,19 @@ export class AccountRoute {
 
         this.logging.debug("express mount ", mountPath);
 
-        this.router.put(mountPath, this.create);
+        this.router.put(mountPath, ensureLoggedIn(), this.create);
         this.logging.debug("route create : put ", mountPath);
 
-        this.router.get(mountPath, this.retrieve);
+        this.router.get(mountPath, ensureLoggedIn(), this.retrieve);
         this.logging.debug("route retrieve : get ", mountPath);
 
-        this.router.get(byId, this.retrieveById);
+        this.router.get(byId, ensureLoggedIn(), this.retrieveById);
         this.logging.debug("route retrieveById : get ", byId);
 
-        this.router.post(byId, this.update);
+        this.router.post(byId, ensureLoggedIn(), this.update);
         this.logging.debug("route update : post ", byId);
 
-        this.router.delete(byId, this.delete);
+        this.router.delete(byId, ensureLoggedIn(), this.delete);
         this.logging.debug("route delete : delete ", byId);
     }
 }

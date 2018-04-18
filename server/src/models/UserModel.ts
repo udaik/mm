@@ -4,6 +4,7 @@ import { UserSchema } from "./schemas/UserSchema"
 
 export interface UserModelInterface extends UserInterface, Document {
     linkedAccountsAdd(linkedAccount: string): void;
+    verifyPassword(password: string): Promise<UserModelInterface>;
 }
 
 export const User: Model<UserModelInterface> = model<UserModelInterface>("User", UserSchema);

@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from "express";
 import { UserController } from "../controllers/UserController";
 import { Logger } from 'log4js';
 import { RouterAbstract } from "./RouterAbstract";
+import { ensureLoggedIn } from 'connect-ensure-login';
 
 export class UserRoute extends RouterAbstract {
     private logging: Logger;
@@ -34,22 +35,22 @@ export class UserRoute extends RouterAbstract {
         this.controller = new UserController(this.logging);
         this.logging.debug("UserRoute ", mount_path);
 
-        this.router.post(mount_path + '/user', this.controller.create);
+        this.router.post(mount_path + '/user', ensureLoggedIn(), this.controller.create);
         this.logging.debug("user create - post ", mount_path + '/user');
 
-        this.router.get(mount_path + '/user', this.controller.retrieve);
+        this.router.get(mount_path + '/user', ensureLoggedIn(), this.controller.retrieve);
         this.logging.debug("user get all - post ", mount_path + '/user');
 
-        this.router.get(mount_path + '/user/:id', this.controller.findOne);
+        this.router.get(mount_path + '/user/:id', ensureLoggedIn(), this.controller.findOne);
         this.logging.debug("user get all - post ", mount_path + '/user/:id');
 
-        this.router.get(mount_path + '/user/:id', this.controller.findOneByName);
+        this.router.get(mount_path + '/user/:id', ensureLoggedIn(), this.controller.findOneByName);
         this.logging.debug("user get all - post ", mount_path + '/user/:name');
 
-        this.router.put(mount_path + '/user/:id', this.controller.update);
+        this.router.put(mount_path + '/user/:id', ensureLoggedIn(), this.controller.update);
         this.logging.debug("user update - put ", mount_path + '/user/:id');
 
-        this.router.delete(mount_path + '/user/:id', this.controller.delete);
+        this.router.delete(mount_path + '/user/:id', ensureLoggedIn(), this.controller.delete);
         this.logging.debug("user delete - delete ", mount_path + '/user/:id');
 
     }
